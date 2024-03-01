@@ -1,0 +1,35 @@
+{
+    "drivers": [
+      {
+        "name": "Lewis Hamilton",
+        "number": 44,
+        "overtaking": 90,
+        "breaking": 85,
+        "consistency": 95,
+        "adaptability": 90,
+        "smoothness": 85,
+        "defense": 80
+      },
+      {
+        "name": "Max Verstappen",
+        "number": 33,
+        "overtaking": 88,
+        "breaking": 90,
+        "consistency": 88,
+        "adaptability": 85,
+        "smoothness": 80,
+        "defense": 85
+      },
+      {
+        "name": "Charles Leclerc",
+        "number": 16,
+        "overtaking": 85,
+        "breaking": 88,
+        "consistency": 85,
+        "adaptability": 88,
+        "smoothness": 90,
+        "defense": 82
+      }
+    ]
+  }
+  

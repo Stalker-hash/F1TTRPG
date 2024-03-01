@@ -1,0 +1,23 @@
+{
+    "teams": [
+      {
+        "name": "Ferrari",
+        "car": "Ferrari SF21",
+        "driver": "Charles Leclerc",
+        "state": 0
+      },
+      {
+        "name": "Mercedes",
+        "car": "Mercedes W12",
+        "driver": "Lewis Hamilton",
+        "state":0
+      },
+      {
+        "name": "Red Bull",
+        "car": "Red Bull RB18",
+        "driver": "Max Verstappen",
+        "state":0
+      }
+    ]
+  }
+  

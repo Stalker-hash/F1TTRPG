@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Monaco",
+        "length": 3.337,
+        "turns": 19,
+        "downforce_factor": 0.9,
+        "handling_factor": 0.8,
+        "power_factor": 0.7,
+        "unpredictability_factor": 0.05,
+        "base_time": 80
+    },
+    {
+        "name": "Silverstone",
+        "length": 5.891,
+        "turns": 18,
+        "downforce_factor": 0.7,
+        "handling_factor": 0.8,
+        "power_factor": 0.8,
+        "unpredictability_factor": 0.03,
+        "base_time": 75
+    },
+    {
+        "name": "Monza",
+        "length": 5.793,
+        "turns": 11,
+        "downforce_factor": 0.6,
+        "handling_factor": 0.7,
+        "power_factor": 0.9,
+        "unpredictability_factor": 0.04,
+        "base_time": 70
+    }
+]
