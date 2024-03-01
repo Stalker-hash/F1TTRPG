@@ -15,10 +15,19 @@ def create_grid(team_data, car_data, driver_data, tyre_data):
 
         if car_info and driver_info and tyre_info:
             # Create the Tyre, Car, and Driver objects
-            tyre = Tyre(name=tyre_info["name"], grip=tyre_info["grip"], durability=tyre_info["durability"], compound=tyre_info["compound"], wear_rate=tyre_info["wear_rate"])
+            tyre = Tyre(name=tyre_info["name"], 
+                        grip=tyre_info["grip"],
+                        durability=tyre_info["durability"],
+                        compound=tyre_info["compound"],
+                        wear_rate=tyre_info["wear_rate"])
             
-            car = Car(car_name=car_info["name"], handling=car_info["handling"], power=car_info["power"],
-                      downforce=car_info["downforce"], tyre_wear=car_info["tyre_wear"], fuel_load=car_info["fuel_load"], tyres=[tyre])
+            car = Car(car_name=car_info["name"], 
+                      handling=car_info["handling"], 
+                      power=car_info["power"],
+                      downforce=car_info["downforce"], 
+                      tyre_wear=car_info["tyre_wear"], 
+                      fuel_load=car_info["fuel_load"], 
+                      tyres=[tyre])
             
             driver = Driver(car=car, 
                             driver_name=driver_info["name"], 
