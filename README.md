@@ -31,7 +31,7 @@ git clone https://github.com/Stalker-hash/F1TTRPG.git
 2. Navigate to the project directory:
 
 ```bash
-cd racing-simulation
+cd F1TTRPG
 ```
 
 3. Run the main script to start the simulation:
@@ -46,18 +46,18 @@ Follow the on-screen prompts to navigate through the simulation.
 
 ### Data Files
 
-- `drivers.json`: Contains information about drivers including their skills and teams.
-- `teams.json`: Defines the teams participating in the races along with their cars.
-- `cars.json`: Specifies the attributes of the cars used by the teams.
-- `tracks.json`: Describes the tracks available for racing, including segment details.
+- `drivers_data.json`: Contains information about drivers including their skills and teams.
+- `teams_data.json`: Defines the teams participating in the races along with their cars.
+- `cars_data.json`: Specifies the attributes of the cars used by the teams.
+- `tracks_data.json`: Describes the tracks available for racing, including segment details.
 
 Feel free to customize these files according to your preferences.
 
 ## Known Issues and Improvements
 
-- **Limited Simulation Features**: The simulation aspect is basic and lacks realism.
-- **Simplified Lap Time Calculation**: Current lap time calculation methods may not accurately reflect real-world racing dynamics.
-- **User Experience**: User interface and experience may be lacking or unintuitive.
+- **Limited Simulation Features**: The simulation aspect is very basic and very far away from realism.
+- **Spagetthi code**: Re-factoring of the code base will come when i can sort the horror of simulation.
+- **User Experience**: Its intented to make a workable ui for this tool.
 
 ## Contributing
 
@@ -66,7 +66,3 @@ Contributions are welcome! If you have any ideas, improvements, or feature reque
 ## License
 
 This project is licensed under the [MIT License](LICENSE).
-
----
-
-Feel free to enhance the README with more detailed instructions, additional features, screenshots, or any other relevant information as your project progresses. Your contributions and feedback are valuable in shaping the future direction of the racing simulation project. Thank you for your interest and support!
