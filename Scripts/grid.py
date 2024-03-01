@@ -20,15 +20,22 @@ def create_grid(team_data, car_data, driver_data, tyre_data):
             car = Car(car_name=car_info["name"], handling=car_info["handling"], power=car_info["power"],
                       downforce=car_info["downforce"], tyre_wear=car_info["tyre_wear"], fuel_load=car_info["fuel_load"], tyres=[tyre])
             
-            driver = Driver(car=car, driver_name=driver_info["name"], driver_number=driver_info["number"])
+            driver = Driver(car=car, 
+                            driver_name=driver_info["name"], 
+                            driver_number=driver_info["number"], 
+                            overtaking=driver_info["overtaking"], 
+                            breaking=driver_info["breaking"], 
+                            consistency=driver_info["consistency"], 
+                            adaptability=driver_info["adaptability"], 
+                            smoothness=driver_info["smoothness"], 
+                            defence=driver_info["defence"], 
+                            cornering=driver_info["cornering"])
 
             # Create the Team object and assign the Car and Driver objects to it
             team = Team(name=team_info["name"], car=car, driver=driver)
 
             # Add the Team object to the dictionary
             teams_dict[team.name] = team
-
-    return teams_dict
 
     return teams_dict
 def find_team_index(team_name, teams):

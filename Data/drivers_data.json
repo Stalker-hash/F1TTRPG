@@ -8,7 +8,8 @@
         "consistency": 95,
         "adaptability": 90,
         "smoothness": 85,
-        "defense": 80
+        "defence": 80,
+        "cornering": 90
       },
       {
         "name": "Max Verstappen",
@@ -18,7 +19,8 @@
         "consistency": 88,
         "adaptability": 85,
         "smoothness": 80,
-        "defense": 85
+        "defence": 85,
+        "cornering": 85
       },
       {
         "name": "Charles Leclerc",
@@ -28,7 +30,8 @@
         "consistency": 85,
         "adaptability": 88,
         "smoothness": 90,
-        "defense": 82
+        "defence": 82,
+        "cornering": 88
       }
     ]
   }

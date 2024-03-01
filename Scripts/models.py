@@ -40,12 +40,20 @@ class Car():
         self.current_Tyre = new_tyre   
 
 class Driver():
-    def __init__(self, car, driver_name, driver_number):
+    def __init__(self, car, driver_name, driver_number, overtaking, breaking, consistency, adaptability, smoothness, defence, cornering):
         self.name = driver_name
         self.car = car
         self.number = driver_number
+        self.overtaking = overtaking
+        self.breaking  = breaking
+        self.consistency = consistency
+        self.adaptability = adaptability
+        self.smoothness = smoothness
+        self.defence = defence
+        self.cornering = cornering
     def __str__(self):
         return self.name
+    
 
 
 class Track:
