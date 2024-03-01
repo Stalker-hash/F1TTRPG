@@ -59,9 +59,9 @@ Feel free to customize these files according to your preferences.
 - **User Experience**: Its intented to make a workable ui for this tool.
 - **Implement funcinalty to be actual ttrpg**: I know it is just a sim tool atm but i can assure you i will add the ttrpg elemts (even rules!) i think it will come around maybe 0.3.0 updt not sure tho
 
-## OTW (version 0.1.1)
-- Working tire system that will degrade and impact lap times
-- Worknig pitstop system this will work as manual mod and a ai led one
+## OTW (version 0.1.3)
+- Worknig pitstop system this will work as manual mod and a ai led one (prox 0.1.6)
+- Making current tyre system better by 
 
 ## Contributing
 
