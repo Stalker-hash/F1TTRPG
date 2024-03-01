@@ -17,7 +17,7 @@ class Team:
 
 
 class Car():
-    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, tyres="C4" ):
+    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, reliability, tyres="C4"):
         self.car_name = car_name
         self.handling = handling
         self.power = power
@@ -25,6 +25,7 @@ class Car():
         self.tyre_wear = tyre_wear
         self.fuel_load = fuel_load
         self.tyres = tyres
+        self.reliability = reliability
         
     def __str__(self):
         return self.car_name
