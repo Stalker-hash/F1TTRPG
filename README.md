@@ -57,6 +57,11 @@ Feel free to customize these files according to your preferences.
 - **Limited Simulation Features**: The simulation aspect is very basic and very far away from realism.
 - **Spagetthi code**: Re-factoring of the code base will come when i can sort the horror of simulation.
 - **User Experience**: Its intented to make a workable ui for this tool.
+- **Implement funcinalty to be actual ttrpg**: I know it is just a sim tool atm but i can assure you i will add the ttrpg elemts (even rules!) i think it will come around maybe 0.3.0 updt not sure tho
+
+## OTW (version 0.1.1)
+- Working tire system that will degrade and impact lap times
+- Worknig pitstop system this will work as manual mod and a ai led one
 
 ## Contributing
 
