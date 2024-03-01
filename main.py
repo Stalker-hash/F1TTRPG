@@ -38,9 +38,9 @@ class Car():
 
 class Driver():
     def __init__(self, car, driver_name, driver_number):
-        self.driver_name = driver_name
+        self.name = driver_name
         self.car = car
-        self.driver_number = driver_number
+        self.number = driver_number
 
 
 class Track:
@@ -96,24 +96,24 @@ def calculate_lap_time(car, track):
 
 def simulate_race(track, teams, num_laps):
     results = {}
-    lap_times = {team.name: [] for team in teams}
+    lap_times = {(team.name, team.driver.name): [] for team in teams.values()}
 
     for _ in range(num_laps):
-        for team in teams:
-            lap_time = calculate_lap_time(team.cars, track)  # Pass the 'car' attribute of the 'team' object
-            lap_times[team.name].append(lap_time)
+        for team_name, team in teams.items():
+            lap_time = calculate_lap_time(team.car, track)  # Pass the 'car' attribute of the 'team' object
+            lap_times[(team.name, team.driver.name)].append(lap_time)
 
-            total_time = sum(lap_times[team.name])
-            results[team.name] = round(total_time, 3)
+            total_time = sum(lap_times[(team.name, team.driver.name)])
+            results[(team.name, team.driver.name)] = round(total_time, 3)
 
         # Sort the results by time in ascending order
         sorted_results = sorted(results.items(), key=lambda x: x[1])
 
         # Print the results after each lap
         print(f"After lap {_ + 1}:")
-        for i, (team, time) in enumerate(sorted_results):
+        for i, ((team, driver), time) in enumerate(sorted_results):
             interval = time - sorted_results[0][1] if i != 0 else 0
-            print(f"{i + 1}. {team}: {time} (+{round(interval, 3)})")
+            print(f"{i + 1}. Team: {team}, Driver: {driver}, Time: {time} (+{round(interval, 3)})")
 
     return sorted_results
 
@@ -121,17 +121,22 @@ def simulate_race(track, teams, num_laps):
 def create_grid(team_data, car_data, driver_data):
     teams_dict = {}
 
-    for team_info, car_info, driver_info in zip(team_data["teams"], car_data["cars"], driver_data["drivers"]):
-        # Create the Car and Driver objects
-        car = Car(car_name=car_info["name"], handling=car_info["handling"], power=car_info["power"],
-                  downforce=car_info["downforce"])
-        driver = Driver(car=car, driver_name=driver_info["name"], driver_number=driver_info["number"])
+    for team_info in team_data["teams"]:
+        # Find the car and driver data for this team
+        car_info = next((car for car in car_data["cars"] if car["name"] == team_info["car"]), None)
+        driver_info = next((driver for driver in driver_data["drivers"] if driver["name"] == team_info["driver"]), None)
 
-        # Create the Team object and assign the Car and Driver objects to it
-        team = Team(name=team_info["name"], car=car, driver=driver)
+        if car_info and driver_info:
+            # Create the Car and Driver objects
+            car = Car(car_name=car_info["name"], handling=car_info["handling"], power=car_info["power"],
+                      downforce=car_info["downforce"])
+            driver = Driver(car=car, driver_name=driver_info["name"], driver_number=driver_info["number"])
 
-        # Add the Team object to the dictionary
-        teams_dict[team.name] = team
+            # Create the Team object and assign the Car and Driver objects to it
+            team = Team(name=team_info["name"], car=car, driver=driver)
+
+            # Add the Team object to the dictionary
+            teams_dict[team.name] = team
 
     return teams_dict
 
@@ -147,8 +152,10 @@ teams_dict = create_grid(team_data, car_data, driver_data)
 Ferrari = teams_dict["Ferrari"]
 track = Track("Silverstone", 5.891, 18, 0.5, 0.5, 0.5, 0.1, 90)
 laptime = calculate_lap_time(Ferrari.car, track)
+race = simulate_race(track, teams_dict, 5)
 
 print(laptime)
+print(race)
 
 
 
