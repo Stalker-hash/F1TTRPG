@@ -1,6 +1,7 @@
 import json
 import random
-from typing import List
+
+
 
 teams_dict = {}
 car_class = []
@@ -13,10 +14,9 @@ def load_json_data(file_path):
     return data
 
 
-team_data = load_json_data("teams_data.json")
-driver_data = load_json_data("drivers_data.json")
-car_data = load_json_data("cars_data.json")
-
+team_data = load_json_data("Data/teams_data.json")
+driver_data = load_json_data("Data/drivers_data.json")
+car_data = load_json_data("Data/cars_data.json")
 
 # Classes that will be used to create the objects for the teams, drivers and cars
 class Team:
