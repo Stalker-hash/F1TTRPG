@@ -8,7 +8,7 @@
       "reliability": 85,
       "downforce": 70,
       "fuel_load": 50,
-      "tire_wear": 20
+      "tyre_wear": 20
     },
     {
       "name": "Red Bull RB18",
@@ -18,7 +18,7 @@
       "reliability": 82,
       "downforce": 68,
       "fuel_load": 55,
-      "tire_wear": 25
+      "tyre_wear": 25
     },
     {
       "name": "Ferrari SF21",
@@ -28,7 +28,7 @@
       "reliability": 80,
       "downforce": 65,
       "fuel_load": 60,
-      "tire_wear": 30
+      "tyre_wear": 30
     }
   ]
 }
