@@ -11,7 +11,8 @@ def create_grid(team_data, car_data, driver_data):
         if car_info and driver_info:
             # Create the Car and Driver objects
             car = Car(car_name=car_info["name"], handling=car_info["handling"], power=car_info["power"],
-                      downforce=car_info["downforce"])
+                      downforce=car_info["downforce"], tire_wear=car_info["tire_wear"], fuel_load=car_info["fuel_load"])
+            
             driver = Driver(car=car, driver_name=driver_info["name"], driver_number=driver_info["number"])
 
             # Create the Team object and assign the Car and Driver objects to it

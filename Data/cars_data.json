@@ -1,29 +1,34 @@
 {
-    "cars": [
-      {
-        "name": "Mercedes W12",
-        "team": "Mercedes",
-        "power": 85,
-        "handling": 80,
-        "reliability": 85,
-        "downforce": 70
-      },
-      {
-        "name": "Red Bull RB18",
-        "team": "Red Bull",
-        "power": 84,
-        "handling": 78,
-        "reliability": 82,
-        "downforce": 68
-      },
-      {
-        "name": "Ferrari SF21",
-        "team": "Ferrari",
-        "power": 83,
-        "handling": 75,
-        "reliability": 80,
-        "downforce": 65
-      }
-    ]
-  }
-  
+  "cars": [
+    {
+      "name": "Mercedes W12",
+      "team": "Mercedes",
+      "power": 85,
+      "handling": 80,
+      "reliability": 85,
+      "downforce": 70,
+      "fuel_load": 50,
+      "tire_wear": 20
+    },
+    {
+      "name": "Red Bull RB18",
+      "team": "Red Bull",
+      "power": 84,
+      "handling": 78,
+      "reliability": 82,
+      "downforce": 68,
+      "fuel_load": 55,
+      "tire_wear": 25
+    },
+    {
+      "name": "Ferrari SF21",
+      "team": "Ferrari",
+      "power": 83,
+      "handling": 75,
+      "reliability": 80,
+      "downforce": 65,
+      "fuel_load": 60,
+      "tire_wear": 30
+    }
+  ]
+}

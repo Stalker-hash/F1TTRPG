@@ -7,14 +7,20 @@ class Team:
         self.state = state
         self.cars = cars
         self.car = car
+    def __str__(self):
+        return self.name
 
 
 class Car():
-    def __init__(self, car_name, handling, power, downforce, ):
+    def __init__(self, car_name, handling, power, downforce, tire_wear, fuel_load):
         self.car_name = car_name
         self.handling = handling
         self.power = power
         self.downforce = downforce
+        self.tire_wear = tire_wear
+        self.fuel_load = fuel_load
+    def __str__(self):
+        return self.car_name
 
 
 class Driver():
@@ -22,6 +28,8 @@ class Driver():
         self.name = driver_name
         self.car = car
         self.number = driver_number
+    def __str__(self):
+        return self.name
 
 
 class Track:
