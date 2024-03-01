@@ -33,9 +33,12 @@ def calculate_lap_time(car, track, mode='normal'):
     # Add factors for tire wear and fuel load
     tire_wear_factor = car.tire_wear * 0.05
     fuel_load_factor = car.fuel_load * 0.02
-
-    lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor)
-    lap_time *= unpredictability_factor  # Apply unpredictability
-
+    if mode == 'normal':
+        lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
+                car.downforce * downforce_factor) + (tire_wear_factor + fuel_load_factor)
+        lap_time *= unpredictability_factor  # Apply unpredictability
+    elif mode == 'qualifying':
+        lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
+                car.downforce * downforce_factor) + (tire_wear_factor + fuel_load_factor)
+    
     return round(lap_time, 3)
