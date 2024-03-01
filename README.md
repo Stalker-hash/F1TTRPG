@@ -1,4 +1,3 @@
-Certainly! Here's the revised README.md file with emphasis on the primary use for custom TTRPGs and clarification that it is not a professional simulation tool:
 
 ---
 
