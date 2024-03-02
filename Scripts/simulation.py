@@ -8,7 +8,8 @@ def simulate_race(track, teams, num_laps):
             car = team.car
             driver_name = str(team.driver)  # Convert the driver to a string
             lap_time = calculate_lap_time(car, track)
-            check_reliability(car)
+            if random.uniform(0, 100) > car.reliability:
+                check_reliability(car)
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + lap_time
 
             # Increase tire wear and fuel load after each lap
