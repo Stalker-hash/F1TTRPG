@@ -27,7 +27,8 @@ def create_grid(team_data, car_data, driver_data, tyre_data):
                       downforce=car_info["downforce"], 
                       tyre_wear=car_info["tyre_wear"], 
                       fuel_load=car_info["fuel_load"], 
-                      tyres=[tyre])
+                      tyres=[tyre],
+                      reliability=car_info["reliability"])
             
             driver = Driver(car=car, 
                             driver_name=driver_info["name"], 

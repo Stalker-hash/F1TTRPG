@@ -1,0 +1,221 @@
+{
+    "failures": [
+      {
+        "category": "Alternator",
+        "reported_occurrences": 14,
+        "percent_of_total": "0.69%",
+        "percent_cumulative": "0.69%"
+      },
+      {
+        "category": "Battery",
+        "reported_occurrences": 5,
+        "percent_of_total": "0.25%",
+        "percent_cumulative": "0.94%"
+      },
+      {
+        "category": "Brakes",
+        "reported_occurrences": 73,
+        "percent_of_total": "3.62%",
+        "percent_cumulative": "4.56%"
+      },
+      {
+        "category": "Chassis",
+        "reported_occurrences": 3,
+        "percent_of_total": "0.15%",
+        "percent_cumulative": "4.71%"
+      },
+      {
+        "category": "Clutch",
+        "reported_occurrences": 55,
+        "percent_of_total": "2.73%",
+        "percent_cumulative": "7.43%"
+      },
+      {
+        "category": "Differential",
+        "reported_occurrences": 12,
+        "percent_of_total": "0.59%",
+        "percent_cumulative": "8.03%"
+      },
+      {
+        "category": "Drive",
+        "reported_occurrences": 42,
+        "percent_of_total": "2.08%",
+        "percent_cumulative": "10.11%"
+      },
+      {
+        "category": "Electrical",
+        "reported_occurrences": 127,
+        "percent_of_total": "6.29%",
+        "percent_cumulative": "16.40%"
+      },
+      {
+        "category": "Electronics",
+        "reported_occurrences": 6,
+        "percent_of_total": "0.30%",
+        "percent_cumulative": "16.70%"
+      },
+      {
+        "category": "Engine",
+        "reported_occurrences": 625,
+        "percent_of_total": "30.97%",
+        "percent_cumulative": "47.67%"
+      },
+      {
+        "category": "Exhaust",
+        "reported_occurrences": 7,
+        "percent_of_total": "0.35%",
+        "percent_cumulative": "48.02%"
+      },
+      {
+        "category": "Fire",
+        "reported_occurrences": 9,
+        "percent_of_total": "0.45%",
+        "percent_cumulative": "48.46%"
+      },
+      {
+        "category": "Fuel System",
+        "reported_occurrences": 61,
+        "percent_of_total": "3.02%",
+        "percent_cumulative": "51.49%"
+      },
+      {
+        "category": "Gear Box",
+        "reported_occurrences": 356,
+        "percent_of_total": "17.64%",
+        "percent_cumulative": "69.13%"
+      },
+      {
+        "category": "Handling",
+        "reported_occurrences": 9,
+        "percent_of_total": "0.45%",
+        "percent_cumulative": "69.57%"
+      },
+      {
+        "category": "Hydraulics",
+        "reported_occurrences": 124,
+        "percent_of_total": "6.14%",
+        "percent_cumulative": "75.72%"
+      },
+      {
+        "category": "Ignition",
+        "reported_occurrences": 3,
+        "percent_of_total": "0.15%",
+        "percent_cumulative": "75.87%"
+      },
+      {
+        "category": "Injection",
+        "reported_occurrences": 1,
+        "percent_of_total": "0.05%",
+        "percent_cumulative": "75.92%"
+      },
+      {
+        "category": "Mechanical",
+        "reported_occurrences": 23,
+        "percent_of_total": "1.14%",
+        "percent_cumulative": "77.06%"
+      },
+      {
+        "category": "Oil System",
+        "reported_occurrences": 33,
+        "percent_of_total": "1.64%",
+        "percent_cumulative": "78.69%"
+      },
+      {
+        "category": "Out of Fuel",
+        "reported_occurrences": 16,
+        "percent_of_total": "0.79%",
+        "percent_cumulative": "79.48%"
+      },
+      {
+        "category": "Overheating",
+        "reported_occurrences": 11,
+        "percent_of_total": "0.55%",
+        "percent_cumulative": "80.03%"
+      },
+      {
+        "category": "Pneumatics",
+        "reported_occurrences": 17,
+        "percent_of_total": "0.84%",
+        "percent_cumulative": "80.87%"
+      },
+      {
+        "category": "Power",
+        "reported_occurrences": 4,
+        "percent_of_total": "0.20%",
+        "percent_cumulative": "81.07%"
+      },
+      {
+        "category": "Puncture",
+        "reported_occurrences": 19,
+        "percent_of_total": "0.94%",
+        "percent_cumulative": "82.01%"
+      },
+      {
+        "category": "Radiator",
+        "reported_occurrences": 5,
+        "percent_of_total": "0.25%",
+        "percent_cumulative": "82.26%"
+      },
+      {
+        "category": "Safety",
+        "reported_occurrences": 3,
+        "percent_of_total": "0.15%",
+        "percent_cumulative": "82.41%"
+      },
+      {
+        "category": "Steering",
+        "reported_occurrences": 20,
+        "percent_of_total": "0.99%",
+        "percent_cumulative": "83.40%"
+      },
+      {
+        "category": "Suspension",
+        "reported_occurrences": 106,
+        "percent_of_total": "5.25%",
+        "percent_cumulative": "88.65%"
+      },
+      {
+        "category": "Technical",
+        "reported_occurrences": 7,
+        "percent_of_total": "0.35%",
+        "percent_cumulative": "89.00%"
+      },
+      {
+        "category": "Throttle",
+        "reported_occurrences": 51,
+        "percent_of_total": "2.53%",
+        "percent_cumulative": "91.53%"
+      },
+      {
+        "category": "Transmission",
+        "reported_occurrences": 101,
+        "percent_of_total": "5.00%",
+        "percent_cumulative": "96.53%"
+      },
+      {
+        "category": "Vibrations",
+        "reported_occurrences": 3,
+        "percent_of_total": "0.15%",
+        "percent_cumulative": "96.68%"
+      },
+      {
+        "category": "Water System",
+        "reported_occurrences": 11,
+        "percent_of_total": "0.55%",
+        "percent_cumulative": "97.22%"
+      },
+      {
+        "category": "Wheel",
+        "reported_occurrences": 44,
+        "percent_of_total": "2.18%",
+        "percent_cumulative": "99.41%"
+      },
+      {
+        "category": "Wing",
+        "reported_occurrences": 12,
+        "percent_of_total": "0.59%",
+        "percent_cumulative": "100.00%"
+      }
+    ]
+  }
+  

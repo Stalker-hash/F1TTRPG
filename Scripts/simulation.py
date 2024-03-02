@@ -1,4 +1,5 @@
 import random
+import json
 
 def simulate_race(track, teams, num_laps):
     results = {}
@@ -33,14 +34,51 @@ def calculate_lap_time(car, track, mode='normal'):
     # Add factors for tyre wear and fuel load
     tyre_wear_factor = car.tyre_wear * 0.05
     fuel_load_factor = car.fuel_load * 0.02
-    
+
+    # Add reliability factor
+    if random.randint(0, 100) > car.reliability:
+        reliability_factor = 100  # This will significantly increase the lap time
+    else:
+        reliability_factor = 0
+
     if mode == 'normal':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
+                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + reliability_factor
         lap_time *= unpredictability_factor  # Apply unpredictability
-        
+
     elif mode == 'qualifying':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
-    
+                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + reliability_factor
+
     return round(lap_time, 3)
+
+def reliability_check(car):
+    seviaritiy_roll = random.randint(0, 100)
+    if seviaritiy_roll > 60:
+        return "low"
+    if 60 < seviaritiy_roll > 90:
+        return "medium"
+    if 90 < seviaritiy_roll > 100:
+        return "major"
+    with open('Data/carpart_data.json') as f:
+        data = json.load(f)
+    failures = data['failures']
+
+    # Calculate total occurrences of all failures
+    total_occurrences = sum(f['reported_occurrences'] for f in failures)
+
+    # Generate a random number between 0 and total_occurrences
+    rand_num = random.randint(0, total_occurrences)
+
+    # Determine which failure category the random number falls into
+    cumulative = 0
+    for failure in failures:
+        cumulative += failure['reported_occurrences']
+        if rand_num <= cumulative:
+            # If the failure category matches a car part, return False
+            if failure['category'].lower() in car.parts:
+                return False
+            break
+
+    # If no matching failure category was found, the car passed the reliability check
+    return True
