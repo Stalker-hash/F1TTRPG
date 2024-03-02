@@ -16,9 +16,7 @@ print(teams_dict)
 # Run the simulation
 Ferrari = teams_dict["Ferrari"]
 track = Track("Silverstone", 5.891, 18, 0.5, 0.5, 0.5, 0.1, 90)
-laptime = calculate_lap_time(Ferrari.car, track)
-race = simulate_race(track, teams_dict, 5)
+race = simulate_race(track=track, teams=teams_dict, num_laps=5)
 
 # Print the results
-print(laptime)
 print(race)
