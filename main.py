@@ -12,7 +12,6 @@ carparts_data = load_json_data('Data/carpart_data.json')
 
 # Create the grid
 teams_dict = create_grid(team_data, car_data, driver_data, tyre_data)
-print(teams_dict)
 # Run the simulation
 Ferrari = teams_dict["Ferrari"]
 track = Track("Silverstone", 5.891, 18, 0.5, 0.5, 0.5, 0.1, 90)

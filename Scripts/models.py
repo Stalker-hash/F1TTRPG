@@ -1,4 +1,5 @@
 # Classes that will be used to create the simulation,
+import json
 
 class Team:
     def __init__(self, name, driver, state = 0, car=None, cars=[]):
@@ -27,6 +28,8 @@ class Car():
         self.reliability = reliability
         self.driver = driver
         self.tyres = tyres
+        with open('Data/carpart_data.json') as f:
+            self.car_parts = json.load(f)
 
     def __str__(self):
         return self.car_name

@@ -8,6 +8,7 @@ def simulate_race(track, teams, num_laps):
             car = team.car
             driver_name = str(team.driver)  # Convert the driver to a string
             lap_time = calculate_lap_time(car, track)
+            check_reliability(car)
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + lap_time
 
             # Increase tire wear and fuel load after each lap
@@ -24,39 +25,6 @@ def simulate_race(track, teams, num_laps):
 
     return sorted_results
 
-def reliability_check(car, driver):
-    seviaritiy_roll = random.randint(0, 100)
-    if seviaritiy_roll > 60:
-        return "low", None
-    if 60 < seviaritiy_roll > 90:
-        return "medium", None
-    if 90 < seviaritiy_roll > 100:
-        return "major", None
-    with open('Data/carpart_data.json') as f:
-        data = json.load(f)
-    failures = data['failures']
-
-    # Calculate total occurrences of all failures
-    total_occurrences = sum(f['reported_occurrences'] for f in failures)
-
-    # Generate a random number between 0 and total_occurrences
-    rand_num = random.randint(0, total_occurrences)
-
-    # Determine which failure category the random number falls into
-    cumulative = 0
-    for failure in failures:
-        cumulative += failure['reported_occurrences']
-        if rand_num <= cumulative:
-            # If the failure category matches a car part, return the failure category and the failed part
-            if failure['category'].lower() in data:
-                print(f"Driver {driver.name} had a failure in part: {failure['part']}")
-                return failure['category'], failure['part']
-            break
-    return None, None
-
-    # If no matching failure category was found, the car passed the reliability check
-    return True
-
 def calculate_lap_time(car, track, mode='normal'):
     base_time = track.base_time
     power_factor = track.power_factor * 0.1  # Lower values mean more influence
@@ -67,8 +35,7 @@ def calculate_lap_time(car, track, mode='normal'):
     # Add factors for tyre wear and fuel load
     tyre_wear_factor = car.tyre_wear * 0.05
     fuel_load_factor = car.fuel_load * 0.02
-    if random.randint(0, 100) > car.reliability:
-        reliability_check(car, car.driver)
+    
     if mode == 'normal':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
                 car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
@@ -78,3 +45,22 @@ def calculate_lap_time(car, track, mode='normal'):
                 car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
 
     return round(lap_time, 3)
+
+
+
+with open('Data/carpart_data.json') as f:
+    carpart_data = json.load(f)
+
+
+def check_reliability(car):
+    # Generate a random number between 0 and 100
+    random_number = random.uniform(0, 100)
+
+    # Iterate over the car part data
+    for part in carpart_data['failures']:
+        # Convert the percent_cumulative to a float and check if the random number is less than it
+        if random_number < float(part['percent_cumulative'].strip('%')):
+            # If it is, print the part that failed and return
+            print(f"{car.driver}'s {part['category']} failed!")
+            return
+    print(f"{car.driver} is still running smoothly.")
