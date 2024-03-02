@@ -9,7 +9,8 @@ def simulate_race(track, teams, num_laps):
             driver_name = str(team.driver)  # Convert the driver to a string
             lap_time = calculate_lap_time(car, track)
             if random.uniform(0, 100) > car.reliability:
-                check_reliability(car)
+                time_party, failed_party = check_reliability(car)
+                print(f"{driver_name} lost {time_party} seconds due to a {failed_party} failure.")
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + lap_time
 
             # Increase tire wear and fuel load after each lap
@@ -63,5 +64,18 @@ def check_reliability(car):
         if random_number < float(part['percent_cumulative'].strip('%')):
             # If it is, print the part that failed and return
             print(f"{car.driver}'s {part['category']} failed!")
-            return
+            # Determine the severity of the failure
+            severity_roll = random.uniform(0, 100)
+            if severity_roll < 33:
+                severity = 'low'
+                time_penalty = 1  # Adjust this value as needed
+            elif severity_roll < 66:
+                severity = 'medium'
+                time_penalty = 2  # Adjust this value as needed
+            else:
+                severity = 'high'
+                time_penalty = 3  # Adjust this value as needed
+            print(f"Severity of failure: {severity}")
+            return time_penalty, part['category']
     print(f"{car.driver} is still running smoothly.")
+    return 0, None
