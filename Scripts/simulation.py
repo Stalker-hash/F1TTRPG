@@ -1,7 +1,7 @@
 import random
 import json
 
-def simulate_race(track, teams, num_laps, tyre_data):
+def simulate_race(track, teams, num_laps, tyre_data, mode='race'):
     results = {}
     lap_times = {}  
 
@@ -25,7 +25,10 @@ def simulate_race(track, teams, num_laps, tyre_data):
         print(f"After lap {lap + 1}:")
         for i, ((team_name, driver_name), total_time) in enumerate(sorted_results):
             interval = total_time - sorted_results[0][1] if i != 0 else 0
-            print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
+            if mode == 'debug':
+                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
+            else:
+                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
 
     return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
 
