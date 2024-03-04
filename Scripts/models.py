@@ -67,29 +67,21 @@ class Track:
 
 
 class Tyre:
-    def __init__(self, compound, grip, durability):
-        self.compound = compound  # 1 (Hard), 2 (Medium), 3 (Soft)
-        self.initial_grip = grip
-        self.current_grip = grip
-        self.durability = durability  # Max laps tyre can last before significant performance drop
-        self.wear_rate = self._calculate_wear_rate()
+    def __init__(self, compound, grip, tyre_life, wear_rate):
+        self.compound = compound
+        self.initial_grip = grip  # Ensure this is correctly initialized
+        self.grip = grip
+        self.tyre_life = tyre_life  
+        self.wear_rate = wear_rate
+        self.current_grip = grip  # This might be redundant if 'grip' is intended to track current grip
 
-    def _calculate_wear_rate(self):
-        if self.compound == 1:  # Hard
-            return 1 / 35
-        elif self.compound == 2:  # Medium
-            return 1 / 25
-        else:  # Soft
-            return 1 / 12
-
-    def update_grip(self):
-        self.current_grip -= self.wear_rate
-        if self.current_grip < 0:
-            self.current_grip = 0
+    def update_grip_and_life(self):
+        # Decrement tyre life and adjust current grip based on wear_rate
+        self.tyre_life -= 1
+        self.grip = max(0, self.grip - self.wear_rate)  # Adjust current grip
 
     def calculate_effect_on_lap_time(self):
-        # Assuming grip directly correlates with lap time improvement per lap,
-        # with 0.1 seconds added per lap for every 1% grip lost
-        grip_loss_percentage = (self.initial_grip - self.current_grip) / self.initial_grip
+        # Calculate additional time per lap based on grip lost
+        grip_loss_percentage = (self.initial_grip - self.grip) / self.initial_grip
         additional_time_per_lap = grip_loss_percentage * 0.1
         return additional_time_per_lap

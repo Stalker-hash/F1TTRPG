@@ -4,49 +4,49 @@
             "Company": "Pirelli",
             "name": "Soft",
             "compound": "C3",
-            "durability": 65,
+            "tyre_life": 30,
             "grip": 85,
-            "wear_rate": 0.06
+            "wear_rate": 0.6
         },
         {
             "Company": "Pirelli",
             "name": "Medium",
             "compound": "C2",
-            "durability": 75,
+            "tyre_life": 40,
             "grip": 75,
-            "wear_rate": 0.05
+            "wear_rate": 0.5
         },
         {
             "Company": "Pirelli",
             "name": "Hard",
             "compound": "C1",
-            "durability": 95,
+            "tyre_life": 50,
             "grip": 80,
-            "wear_rate": 0.04
+            "wear_rate": 0.4
         },
         {
             "Company": "Bridgestone",
             "name": "Soft",
             "compound": "K3",
-            "durability": 60,
+            "tyre_life": 25,
             "grip": 90,
-            "wear_rate": 0.05
+            "wear_rate": 0.6
         },
         {
             "Company": "Bridgestone",
             "name": "Medium",
             "compound": "K2",
-            "durability": 70,
+            "tyre_life": 35,
             "grip": 70,
-            "wear_rate": 0.03
+            "wear_rate": 0.5
         },
         {
             "Company": "Bridgestone",
             "name": "Hard",
             "compound": "K1",
-            "durability": 90,
+            "tyre_life": 45,
             "grip": 55,
-            "wear_rate": 0.02
+            "wear_rate": 0.3
         }
     ]
 }
