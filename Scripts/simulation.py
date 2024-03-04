@@ -34,17 +34,20 @@ def calculate_lap_time(car, track, mode='normal'):
     downforce_factor = track.downforce_factor * 0.3  # Lower values mean more influence
     unpredictability_factor = 1 + random.uniform(-track.unpredictability_factor,
                                                  track.unpredictability_factor)  # Random factor for unpredictability
-    # Add factors for tyre wear and fuel load
+    # Adjust for tyre wear and fuel load
     tyre_wear_factor = car.tyre_wear * 0.05
     fuel_load_factor = car.fuel_load * 0.02
     
+    # Update for dynamic tire wear effects
+    additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()
+    
     if mode == 'normal':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
+                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
         lap_time *= unpredictability_factor  # Apply unpredictability
     elif mode == 'qualifying':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor)
+                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
 
     return round(lap_time, 3)
 

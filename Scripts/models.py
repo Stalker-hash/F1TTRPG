@@ -1,6 +1,6 @@
 # Classes that will be used to create the simulation,
 import json
-
+import random
 class Team:
     def __init__(self, name, driver, state = 0, car=None, cars=[]):
         self.name = name
@@ -12,13 +12,14 @@ class Team:
     def __str__(self):
         return self.name
     
-    def pit_stop(self, new_Tyre):
-        # Change the car's Tyres
-        self.car.change_Tyres(new_Tyre)
+    def pit_stop(self, new_tyre):
+        pit_time, narration = self.car.perform_pit_stop()
+        print(f"{narration} for {self.name}.")
+        return pit_time
 
 
-class Car():
-    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, reliability, driver, tyres="C4"):
+class Car:
+    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, reliability, driver, tyre):
         self.car_name = car_name
         self.handling = handling
         self.power = power
@@ -27,22 +28,13 @@ class Car():
         self.fuel_load = fuel_load
         self.reliability = reliability
         self.driver = driver
-        self.tyres = tyres
+        self.tyre = tyre  
         with open('Data/carpart_data.json') as f:
             self.car_parts = json.load(f)
 
     def __str__(self):
         return self.car_name
     
-    def change_Tyres(self, new_tyre):
-        # Remove the current Tyre from the list of Tyres
-        self.Tyres.remove(self.current_Tyre)
-
-        # Add the new Tyre to the list of Tyres
-        self.Tyres.append(new_tyre)
-
-        # Set the current Tyre to the new Tyre
-        self.current_Tyre = new_tyre   
 
 class Driver():
     def __init__(self, car, driver_name, driver_number, overtaking, breaking, consistency, adaptability, smoothness, defence, cornering):
@@ -75,12 +67,29 @@ class Track:
 
 
 class Tyre:
-    def __init__(self, name, grip, durability, compound, wear_rate):
-        self.name = name
-        self.grip = grip
-        self.durability = durability
-        self.compound = compound
-        self.wear_rate = wear_rate
+    def __init__(self, compound, grip, durability):
+        self.compound = compound  # 1 (Hard), 2 (Medium), 3 (Soft)
+        self.initial_grip = grip
+        self.current_grip = grip
+        self.durability = durability  # Max laps tyre can last before significant performance drop
+        self.wear_rate = self._calculate_wear_rate()
 
-    def __str__(self):
-        return self.name
+    def _calculate_wear_rate(self):
+        if self.compound == 1:  # Hard
+            return 1 / 35
+        elif self.compound == 2:  # Medium
+            return 1 / 25
+        else:  # Soft
+            return 1 / 12
+
+    def update_grip(self):
+        self.current_grip -= self.wear_rate
+        if self.current_grip < 0:
+            self.current_grip = 0
+
+    def calculate_effect_on_lap_time(self):
+        # Assuming grip directly correlates with lap time improvement per lap,
+        # with 0.1 seconds added per lap for every 1% grip lost
+        grip_loss_percentage = (self.initial_grip - self.current_grip) / self.initial_grip
+        additional_time_per_lap = grip_loss_percentage * 0.1
+        return additional_time_per_lap
