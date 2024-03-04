@@ -27,6 +27,12 @@
         "handling_factor": 0.7,
         "power_factor": 0.9,
         "unpredictability_factor": 0.04,
-        "base_time": 70
+        "base_time": 70,
+        "segments" : {
+            "straights": 4,
+            "low_speed_segments": 2,
+            "medium_speed_segments": 3,
+            "high_speed_segments": 2 
+        }
     }
 ]

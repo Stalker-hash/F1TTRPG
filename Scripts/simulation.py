@@ -1,31 +1,39 @@
 import random
 import json
 
-def simulate_race(track, teams, num_laps):
+def simulate_race(track, teams, num_laps, mode='race'):
     results = {}
+    lap_times = {}  # Store the lap times separately
     for _ in range(num_laps):
         for team_name, team in teams.items():
             car = team.car
             driver_name = str(team.driver)  # Convert the driver to a string
             lap_time = calculate_lap_time(car, track)
             if random.uniform(0, 100) > car.reliability:
-                time_party, failed_party = check_reliability(car)
-                print(f"{driver_name} lost {time_party} seconds due to a {failed_party} failure.")
+                time_penalty, failed_part = check_reliability(car)
+                print(f"{driver_name} lost {time_penalty} seconds due to a {failed_part} failure.")
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + lap_time
+            lap_times[(team_name, driver_name)] = lap_time  # Store the lap time
 
             # Increase tire wear and fuel load after each lap
             car.tyre_wear += 1
             car.fuel_load -= 1
 
-        sorted_results = sorted(results.items(), key=lambda x: x[1])
+        sorted_results = sorted(lap_times.items(), key=lambda x: x[1])  # Sort the lap times
 
         # Print the results after each lap
         print(f"After lap {_ + 1}:")
         for i, ((team_name, driver_name), time) in enumerate(sorted_results):
-            interval = time - sorted_results[0][1] if i != 0 else 0
-            print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Time: {round(time, 2)} (+{round(interval, 2)}), Tyre wear: {teams[team_name].car.tyre_wear}, Fuel load: {teams[team_name].car.fuel_load}")
+            if mode == 'debug':
+                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(time, 2)}, Interval: {round(interval, 2)}, Fuel: {car.fuel_load}, Tyre Wear: {car.tyre_wear}, Grip: {car.grip}")
+            else:
+                if i == 0:
+                    print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(time, 2)}")
+                else:
+                    interval = time - sorted_results[i - 1][1]
+                    print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(time, 2)}, Interval: {round(interval, 2)}")
 
-    return sorted_results
+    return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
 
 def calculate_lap_time(car, track, mode='normal'):
     base_time = track.base_time
@@ -78,7 +86,6 @@ def check_reliability(car):
             else:
                 severity = 'high'
                 time_penalty = 3  # Adjust this value as needed
-            print(f"Severity of failure: {severity}")
             return time_penalty, part['category']
     print(f"{car.driver} is still running smoothly.")
     return 0, None
