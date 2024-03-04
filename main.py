@@ -15,6 +15,6 @@ teams_dict = create_grid(team_data, car_data, driver_data, tyre_data)
 
 # Run the simulation
 track = Track("Silverstone", 5.891, 18, 0.5, 0.5, 0.5, 0.1, 90)
-race = simulate_race(track=track, teams=teams_dict, num_laps=5, tyre_data=tyre_data)
+race = simulate_race(track=track, teams=teams_dict, num_laps=50, tyre_data=tyre_data)
 
 
