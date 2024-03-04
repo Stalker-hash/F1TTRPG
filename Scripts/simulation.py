@@ -1,31 +1,30 @@
 import random
 import json
 
-def simulate_race(track, teams, num_laps):
+def simulate_race(track, teams, num_laps, tyre_data):
     results = {}
-    for _ in range(num_laps):
+    for lap in range(num_laps):
         for team_name, team in teams.items():
             car = team.car
-            driver_name = str(team.driver)  # Convert the driver to a string
-            lap_time = calculate_lap_time(car, track)
+            driver_name = str(team.driver)
+            car.tyre.update_grip_and_life()  # Update tire grip and life
+            additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()  # Calculate additional time due to wear
+            lap_time = calculate_lap_time(car, track) + additional_time_due_to_wear  # Adjust lap time based on tire condition
             if random.uniform(0, 100) > car.reliability:
-                time_party, failed_party = check_reliability(car)
-                print(f"{driver_name} lost {time_party} seconds due to a {failed_party} failure.")
+                time_penalty, failed_part = check_reliability(car)
+                print(f"{driver_name} lost {time_penalty} seconds due to a {failed_part} failure.")
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + lap_time
 
-            # Increase tire wear and fuel load after each lap
-            car.tyre_wear += 1
-            car.fuel_load -= 1
+            car.fuel_load -= 1  # Update fuel load
 
         sorted_results = sorted(results.items(), key=lambda x: x[1])
-
-        # Print the results after each lap
-        print(f"After lap {_ + 1}:")
-        for i, ((team_name, driver_name), time) in enumerate(sorted_results):
-            interval = time - sorted_results[0][1] if i != 0 else 0
-            print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Time: {round(time, 2)} (+{round(interval, 2)}), Tyre wear: {teams[team_name].car.tyre_wear}, Fuel load: {teams[team_name].car.fuel_load}")
+        print(f"After lap {lap + 1}:")
+        for i, ((team_name, driver_name), total_time) in enumerate(sorted_results):
+            interval = total_time - sorted_results[0][1] if i != 0 else 0
+            print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {round(lap_time, 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
 
     return sorted_results
+
 
 def calculate_lap_time(car, track, mode='normal'):
     base_time = track.base_time
