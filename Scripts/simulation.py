@@ -96,7 +96,6 @@ def check_reliability(car):
     print(f"{car.driver} is still running smoothly.")
     return 0, None
 
-=======
 def pit_stop(car, tyre_data):
     pit_lane_time = 20  # Fixed time for entering and exiting the pit lane
     pit_stop_duration = random.randint(2, 5)  # Random time for tyre replacement
@@ -115,4 +114,3 @@ def pit_stop(car, tyre_data):
         print(f"Pit stop for {car.driver}: Total pit time {total_pit_time} seconds, including {pit_stop_duration} seconds for tyre replacement, changed to {new_tyre['compound']} tyres.")
 
     return total_pit_time
->>>>>>> be1a9627a253b3af3e87e2be55270946a639dba2
