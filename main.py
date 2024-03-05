@@ -1,6 +1,6 @@
 from Scripts.data import load_json_data
 from Scripts.models import Car, Driver, Team, Track, Tyre
-from Scripts.simulation import calculate_lap_time, simulate_race
+from Scripts.simulation import calculate_lap_time, simulate_race, calculate_segments
 from Scripts.grid import create_grid, find_team_index
 
 DEV_MODE = False
@@ -34,7 +34,6 @@ else:
     track = Track(track_data_item['name'], track_data_item['length'], track_data_item['turns'], track_data_item['downforce_factor'], track_data_item['handling_factor'], track_data_item['power_factor'], track_data_item['unpredictability_factor'], track_data_item['base_time'], segments=track_data_item['segments'])
 
 # Run the simulation
-
 race = simulate_race(track=track, teams=teams_dict, num_laps=5, tyre_data=tyre_data)
 
 

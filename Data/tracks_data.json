@@ -7,7 +7,13 @@
         "handling_factor": 0.8,
         "power_factor": 0.7,
         "unpredictability_factor": 0.05,
-        "base_time": 80
+        "base_time": 80,
+        "segments" : {
+            "straights": 0,
+            "low_speed_segments": 10,
+            "medium_speed_segments": 5,
+            "high_speed_segments": 4 
+        }
     },
     {
         "name": "Silverstone",
@@ -17,7 +23,24 @@
         "handling_factor": 0.8,
         "power_factor": 0.8,
         "unpredictability_factor": 0.03,
-        "base_time": 75
+        "base_time": 75,
+        "segments" : [
+            {
+            "straights": 3,
+            "lenght_km": 1.1
+            },
+            {
+            "low_speed_segments": 3,
+            "lenght_km": 0.45
+            },
+            {
+            "medium_speed_segments": 4,
+            "lenght_km": 0.8
+            },
+            {
+            "high_speed_segments": 3 
+        }
+    ]
     },
     {
         "name": "Monza",
@@ -29,10 +52,10 @@
         "unpredictability_factor": 0.04,
         "base_time": 70,
         "segments" : {
-            "straights": 4,
-            "low_speed_segments": 2,
-            "medium_speed_segments": 3,
-            "high_speed_segments": 2 
+            "straights_km": 1.5,
+            "low_speed_km": 2,
+            "medium_speed_km": 1.5,
+            "high_speed_km": 3 
         }
     }
 ]
