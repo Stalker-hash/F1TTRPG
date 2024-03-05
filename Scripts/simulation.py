@@ -23,7 +23,7 @@ def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
             
             individual_lap_time = calculate_segments(track, car)+ additional_time_due_to_wear
               
-            if random.uniform(0, 100) > car.reliability:
+            if random.uniform(0, 80) > car.reliability:
                 time_penalty, failed_part = check_reliability(car)
                 print(f"{driver_name} lost {time_penalty} seconds due to a {failed_part} failure.")
                 individual_lap_time += time_penalty  
@@ -39,7 +39,7 @@ def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
             if mode == 'debug':
                 print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)])}, Total Time: {format_lap_time(total_time)} (+{format_lap_time(interval)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
             else:
-                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {lap_time_formater(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
+                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
 
     return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
 
@@ -128,16 +128,16 @@ def calculate_segments(track, car):
     lap_time = 0  
     for segment in segments:
         if segment == "straights_km":
-            segment_time = (car.power * power_factor / downforce_factor) * track.segments[segment]
+            segment_time = (car.power / power_factor * downforce_factor) * track.segments[segment]
             print(segment_time)
         elif segment == "high_speed_km":
-            segment_time = (car.power * power_factor * downforce_factor) * ((100- car.handling) / 10 * handling_factor) * track.segments[segment]
+            segment_time = (car.power * power_factor * downforce_factor) * ((100- car.handling) / 10 * handling_factor) * track.segments[segment] / 5
         
         elif segment == "medium_speed_km":
-            segment_time = (car.handling * handling_factor) / 2 * (car.downforce * downforce_factor)* 2 * track.segments[segment]
+            segment_time = (car.handling / handling_factor) / 2 * (car.downforce / downforce_factor)* 2 * track.segments[segment] / 5
         
         elif segment == "low_speed_km":
-            segment_time = (car.handling * handling_factor) * (car.downforce * downforce_factor) * track.segments[segment]
+            segment_time = (car.handling / handling_factor) * (car.downforce / downforce_factor) * track.segments[segment] / 5
 
     # Add the segment time to the total lap time
     lap_time += segment_time
