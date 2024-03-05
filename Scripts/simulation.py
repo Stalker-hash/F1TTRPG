@@ -124,23 +124,27 @@ def calculate_segments(track, car):
     downforce_factor = track.downforce_factor
     unpredictability_factor = track.unpredictability_factor
     segments = track.segments
-    segment_time = 0
     lap_time = 0  
+
     for segment in segments:
         if segment == "straights_km":
-            segment_time = (car.power / power_factor * downforce_factor) * track.segments[segment]
-            print(segment_time)
+            # Power is more important in straights
+            segment_time = base_time * (1 - car.power / 100) * track.segments[segment]
         elif segment == "high_speed_km":
-            segment_time = (car.power * power_factor * downforce_factor) * ((100- car.handling) / 10 * handling_factor) * track.segments[segment] / 5
-        
+            # Balance of power and handling is important in high speed corners
+            segment_time = base_time * (1 - (car.power / 100 * 0.5 + car.handling / 100 * 0.5)) * track.segments[segment]
         elif segment == "medium_speed_km":
-            segment_time = (car.handling / handling_factor) / 2 * (car.downforce / downforce_factor)* 2 * track.segments[segment] / 5
-        
+            # Handling is more important in medium speed corners
+            segment_time = base_time * (1 - car.handling / 100) * track.segments[segment]
         elif segment == "low_speed_km":
-            segment_time = (car.handling / handling_factor) * (car.downforce / downforce_factor) * track.segments[segment] / 5
+            # Downforce is more important in low speed corners
+            segment_time = base_time * (1 - car.downforce / 100) * track.segments[segment]
 
-    # Add the segment time to the total lap time
-    lap_time += segment_time
+        # Add unpredictability factor
+        segment_time *= 1 + unpredictability_factor / 100
+
+        # Add the segment time to the total lap time
+        lap_time += segment_time
 
     # Return the total lap time
     return lap_time
