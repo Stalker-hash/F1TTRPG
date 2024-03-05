@@ -55,7 +55,7 @@ class Driver():
 
 class Track:
     def __init__(self, name, length, turns, downforce_factor, handling_factor, power_factor, unpredictability_factor,
-                 base_time):
+                 base_time,segments ):
         self.name = name
         self.length = length
         self.turns = turns
@@ -64,6 +64,8 @@ class Track:
         self.power_factor = power_factor
         self.unpredictability_factor = unpredictability_factor
         self.base_time = base_time
+        self.segments = segments
+        
 
 
 class Tyre:

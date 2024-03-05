@@ -86,3 +86,8 @@ def check_reliability(car):
             return time_penalty, part['category']
     print(f"{car.driver} is still running smoothly.")
     return 0, None
+
+def calculate_lap_time_segment(car, track):
+    # Calculate the lap time segment based on the car's performance
+    base_time = track.base_time
+    track
