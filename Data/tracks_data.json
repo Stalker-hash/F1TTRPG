@@ -9,10 +9,10 @@
         "unpredictability_factor": 0.05,
         "base_time": 80,
         "segments" : {
-            "straights": 0,
-            "low_speed_segments": 10,
-            "medium_speed_segments": 5,
-            "high_speed_segments": 4 
+            "straights_km": 1.7,
+            "low_speed_km": 0.8,
+            "medium_speed_km": 0.6,
+            "high_speed_km": 0.5 
         }
     },
     {
@@ -24,28 +24,18 @@
         "power_factor": 0.8,
         "unpredictability_factor": 0.03,
         "base_time": 75,
-        "segments" : [
-            {
-            "straights": 3,
-            "lenght_km": 1.1
-            },
-            {
-            "low_speed_segments": 3,
-            "lenght_km": 0.45
-            },
-            {
-            "medium_speed_segments": 4,
-            "lenght_km": 0.8
-            },
-            {
-            "high_speed_segments": 3 
+        "segments" : {
+            "straights_km": 2,
+            "low_speed_km": 1.5,
+            "medium_speed_km": 1.5,
+            "high_speed_km": 2 
         }
-    ]
     },
     {
         "name": "Monza",
         "length": 5.793,
         "turns": 11,
+        "total_laps": 53,
         "downforce_factor": 0.6,
         "handling_factor": 0.7,
         "power_factor": 0.9,

@@ -12,6 +12,7 @@ driver_data = load_json_data('Data/drivers_data.json')
 tyre_data = load_json_data('Data/tyres_data.json')
 carparts_data = load_json_data('Data/carpart_data.json')
 track_data = load_json_data('Data/tracks_data.json')
+
 # Create the grid
 teams_dict = create_grid(team_data, car_data, driver_data, tyre_data)
 
