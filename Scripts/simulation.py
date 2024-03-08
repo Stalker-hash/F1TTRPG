@@ -1,47 +1,51 @@
 import random
 import json
-from .models import Tyre
-from .data import format_lap_time
+from models import Tyre
+from data import format_lap_time
+
 
 def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
     results = {}
-    lap_times = {}  
+    lap_times = {}
 
     for lap in range(num_laps):
         for team_name, team in teams.items():
             car = team.car
             driver_name = str(team.driver)
-            car.tyre.update_grip_and_life()  
-            additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()  
-            
+            car.tyre.update_grip_and_life()
+            additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()
+
             # Check for pit stop
             tyre_life_remaining = car.tyre.tyre_life
             if tyre_life_remaining <= 15 and (tyre_life_remaining == 1 or random.random() < 0.1):
                 pit_time = pit_stop(car, tyre_data)
                 print(f"{driver_name} making a pit stop, losing {pit_time} seconds.")
                 additional_time_due_to_wear += pit_time
-            
-            individual_lap_time = calculate_segments(track, car)+ additional_time_due_to_wear
-              
+
+            individual_lap_time = calculate_segments(track, car) + additional_time_due_to_wear
+
             if random.uniform(0, 80) > car.reliability:
                 time_penalty, failed_part = check_reliability(car)
                 print(f"{driver_name} lost {time_penalty} seconds due to a {failed_part} failure.")
-                individual_lap_time += time_penalty  
+                individual_lap_time += time_penalty
             results[(team_name, driver_name)] = results.get((team_name, driver_name), 0) + individual_lap_time
-            lap_times[(team_name, driver_name, lap)] = individual_lap_time  
+            lap_times[(team_name, driver_name, lap)] = individual_lap_time
 
-            car.fuel_load -= 1  
+            car.fuel_load -= 1
 
         sorted_results = sorted(results.items(), key=lambda x: x[1])
         print(f"After lap {lap + 1}:")
         for i, ((team_name, driver_name), total_time) in enumerate(sorted_results):
             interval = total_time - sorted_results[0][1] if i != 0 else 0
             if mode == 'debug':
-                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)])}, Total Time: {format_lap_time(total_time)} (+{format_lap_time(interval)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
+                print(
+                    f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)])}, Total Time: {format_lap_time(total_time)} (+{format_lap_time(interval)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
             else:
-                print(f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
+                print(
+                    f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
 
     return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
+
 
 def calculate_lap_time(car, track, mode='normal'):
     base_time = track.base_time
@@ -53,10 +57,10 @@ def calculate_lap_time(car, track, mode='normal'):
     # Adjust for tyre wear and fuel load
     tyre_wear_factor = car.tyre_wear * 0.05
     fuel_load_factor = car.fuel_load * 0.02
-    
+
     # Update for dynamic tire wear effects
     additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()
-    
+
     if mode == 'normal':
         lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
                 car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
@@ -66,7 +70,6 @@ def calculate_lap_time(car, track, mode='normal'):
                 car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
 
     return round(lap_time, 3)
-
 
 
 with open('Data/carpart_data.json') as f:
@@ -98,6 +101,7 @@ def check_reliability(car):
     print(f"{car.driver} is still running smoothly.")
     return 0, None
 
+
 def pit_stop(car, tyre_data):
     pit_lane_time = 20  # Fixed time for entering and exiting the pit lane
     pit_stop_duration = random.randint(2, 5)  # Random time for tyre replacement
@@ -107,15 +111,19 @@ def pit_stop(car, tyre_data):
     constructor_prefix = car.tyre.compound[0]
 
     # Filter tyre choices that match the constructor and are not the current compound
-    compatible_tyres = [tyre for tyre in tyre_data['tyres'] if tyre['compound'].startswith(constructor_prefix) and tyre['compound'] != car.tyre.compound]
+    compatible_tyres = [tyre for tyre in tyre_data['tyres'] if
+                        tyre['compound'].startswith(constructor_prefix) and tyre['compound'] != car.tyre.compound]
 
     # Randomly select a new tyre from the compatible options
     if compatible_tyres:
         new_tyre = random.choice(compatible_tyres)
-        car.tyre = Tyre(compound=new_tyre['compound'], grip=new_tyre['grip'], tyre_life=new_tyre['tyre_life'], wear_rate=new_tyre['wear_rate'])
-        print(f"Pit stop for {car.driver}: Total pit time {total_pit_time} seconds, including {pit_stop_duration} seconds for tyre replacement, changed to {new_tyre['compound']} tyres.")
+        car.tyre = Tyre(compound=new_tyre['compound'], grip=new_tyre['grip'], tyre_life=new_tyre['tyre_life'],
+                        wear_rate=new_tyre['wear_rate'])
+        print(
+            f"Pit stop for {car.driver}: Total pit time {total_pit_time} seconds, including {pit_stop_duration} seconds for tyre replacement, changed to {new_tyre['compound']} tyres.")
 
     return total_pit_time
+
 
 def calculate_segments(track, car):
     base_time = track.base_time
@@ -124,7 +132,7 @@ def calculate_segments(track, car):
     downforce_factor = track.downforce_factor
     unpredictability_factor = track.unpredictability_factor
     segments = track.segments
-    lap_time = 0  
+    lap_time = 0
 
     for segment in segments:
         if segment == "straights_km":
@@ -132,7 +140,8 @@ def calculate_segments(track, car):
             segment_time = base_time * (1 - car.power / 100) * track.segments[segment]
         elif segment == "high_speed_km":
             # Balance of power and handling is important in high speed corners
-            segment_time = base_time * (1 - (car.power / 100 * 0.5 + car.handling / 100 * 0.5)) * track.segments[segment]
+            segment_time = base_time * (1 - (car.power / 100 * 0.5 + car.handling / 100 * 0.5)) * track.segments[
+                segment]
         elif segment == "medium_speed_km":
             # Handling is more important in medium speed corners
             segment_time = base_time * (1 - car.handling / 100) * track.segments[segment]
