@@ -1,7 +1,7 @@
 import random
 import json
-from models import Tyre
-from data import format_lap_time
+from .models import Tyre
+from .data import format_lap_time
 
 
 def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
@@ -126,34 +126,21 @@ def pit_stop(car, tyre_data):
 
 
 def calculate_segments(track, car):
-    base_time = track.base_time
-    power_factor = track.power_factor
-    handling_factor = track.handling_factor
-    downforce_factor = track.downforce_factor
-    unpredictability_factor = track.unpredictability_factor
-    segments = track.segments
     lap_time = 0
+    attribute_factors = {
+        "straights_km": car.power - car.downforce / 2,
+        "high_speed_km": (car.power + car.handling) / 2,
+        "medium_speed_km": (car.handling + car.downforce / 2),
+        "low_speed_km": car.downforce + car.handling / 2,
+    }
 
-    for segment in segments:
-        if segment == "straights_km":
-            # Power is more important in straights
-            segment_time = base_time * (1 - car.power / 100) * track.segments[segment]
-        elif segment == "high_speed_km":
-            # Balance of power and handling is important in high speed corners
-            segment_time = base_time * (1 - (car.power / 100 * 0.5 + car.handling / 100 * 0.5)) * track.segments[
-                segment]
-        elif segment == "medium_speed_km":
-            # Handling is more important in medium speed corners
-            segment_time = base_time * (1 - car.handling / 100) * track.segments[segment]
-        elif segment == "low_speed_km":
-            # Downforce is more important in low speed corners
-            segment_time = base_time * (1 - car.downforce / 100) * track.segments[segment]
+    for segment, attribute in attribute_factors.items():
+        if segment in track.segments:
+            segment_time = track.segments[segment] / (attribute / 100)
+            segment_time *= 1 + track.unpredictability_factor / 100
+            lap_time += segment_time
 
-        # Add unpredictability factor
-        segment_time *= 1 + unpredictability_factor / 100
+    # Normalize the lap time to 1 minute 20 seconds
+    lap_time = lap_time / lap_time * 80
 
-        # Add the segment time to the total lap time
-        lap_time += segment_time
-
-    # Return the total lap time
     return lap_time
