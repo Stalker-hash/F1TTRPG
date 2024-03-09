@@ -13,3 +13,10 @@ def format_lap_time(time_in_seconds):
     seconds, milliseconds = divmod(seconds, 1)
     milliseconds = round(milliseconds * 1000)
     return f"{int(minutes)}m {int(seconds)}s {milliseconds}ms"
+
+
+def find_driver_index(driver_name, drivers):
+    for i, driver in enumerate(drivers):
+        if driver.name == driver_name:
+            return i
+    return -1

@@ -4,7 +4,9 @@ import random
 
 
 class Team:
-    def __init__(self, name, driver, state=0, car=None, cars=[]):
+    def __init__(self, name, driver, state=0, car=None, cars=None):
+        if cars is None:
+            cars = []
         self.name = name
         self.driver = driver
         self.state = state
@@ -38,7 +40,7 @@ class Car:
         return self.car_name
 
 
-class Driver():
+class Driver:
     def __init__(self, car, driver_name, driver_number, overtaking, breaking, consistency, adaptability, smoothness,
                  defence, cornering):
         self.name = driver_name
@@ -89,3 +91,43 @@ class Tyre:
         grip_loss_percentage = (self.initial_grip - self.grip) / self.initial_grip
         additional_time_per_lap = grip_loss_percentage * 0.1
         return additional_time_per_lap
+
+
+class ERS:
+    def __init__(self):
+        self.battery_capacity = 5  # 5 Mega Joules
+        self.battery_level = self.battery_capacity  # Battery starts fully charged
+
+    def use_ers(self, mode, segment):
+        if self.battery_level > 3:  # If battery level is high
+            if mode == "PUSH":
+                self.battery_level -= 1.5  # Use more energy
+            elif mode == "NATURAL":
+                if segment == "straights_km":
+                    self.battery_level -= 0.3  # Use more energy
+                elif segment == "high_speed_km":
+                    self.battery_level -= 0.2  # Use more energy
+                elif segment == "medium_speed_km":
+                    self.battery_level += 0.1  # Recharge a bit
+                elif segment == "low_speed_km":
+                    self.battery_level += 0.2  # Recharge more
+            elif mode == "RECHARGE":
+                self.battery_level += 0.5  # Only fills the battery
+        else:  # If battery level is low
+            if mode == "PUSH":
+                self.battery_level -= 0.5  # Use less energy
+            elif mode == "NATURAL":
+                if segment == "straights_km":
+                    self.battery_level -= 0.1  # Use less energy
+                elif segment == "high_speed_km":
+                    self.battery_level -= 0.05  # Use less energy
+                elif segment == "medium_speed_km":
+                    self.battery_level += 0.2  # Recharge more
+                elif segment == "low_speed_km":
+                    self.battery_level += 0.3  # Recharge more
+            elif mode == "RECHARGE":
+                self.battery_level += 0.7  # Recharge more
+
+        # Ensure battery level stays within capacity limits
+        self.battery_level = min(max(self.battery_level, 0), self.battery_capacity)
+
