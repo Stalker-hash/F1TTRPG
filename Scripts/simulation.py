@@ -22,7 +22,7 @@ def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
                 print(f"{driver_name} making a pit stop, losing {pit_time} seconds.")
                 additional_time_due_to_wear += pit_time
 
-            individual_lap_time = calculate_lap_time(track, car, ers=ers, driver=driver) + additional_time_due_to_wear
+            individual_lap_time = calculate_lap_time(track, car, driver=driver) + additional_time_due_to_wear
 
             if random.uniform(0, 80) > car.reliability:
                 time_penalty, failed_part = check_reliability(car)
@@ -104,7 +104,7 @@ def pit_stop(car, tyre_data):
     return total_pit_time
 
 
-def calculate_lap_time(track, car, ers, driver):
+def calculate_lap_time(track, car, driver):
     lap_time = 0
     attribute_factors = {
         "straights_km": car.power * 0.5 * (car.drs_factor if car.drs_active else 1) - car.downforce * 0.3 + driver.breaking * 0.2,
@@ -124,7 +124,7 @@ def calculate_lap_time(track, car, ers, driver):
                 ers_mode = "RECHARGE"
 
             # Use the ERS
-            ers_multiplier = 1 + (ers.battery_level / 100) * 0.1  # Adjust this value as needed
+            ers_multiplier = 1 + (car.battery_level / 100) * 0.1  # Adjust this value as needed
             car.use_ers(ers_mode, segment)
 
             # Calculate the segment time
