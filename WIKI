@@ -1,0 +1,92 @@
+### One Stop Wiki For BOX!BOX! 
+
+# Main.py Documentation
+
+## Overview
+
+The `main.py` script is the entry point of the car race simulation project. It loads the necessary data, creates the racing grid, and runs the race simulation.
+
+## Detailed Breakdown
+
+1. **Import necessary modules and set development mode**
+
+    The script starts by importing necessary functions and classes from the `Scripts` directory. It also sets a `DEV_MODE` flag which, when set to `True`, bypasses user input and uses predefined values for testing and development purposes.
+
+    ```python
+    from Scripts.data import load_json_data
+    from Scripts.grid import create_grid
+    from Scripts.models import Track
+    from Scripts.simulation import simulate_race
+
+    DEV_MODE = True
+    ```
+
+2. **Load data**
+
+    The script loads data from JSON files using the `load_json_data` function. The data includes information about teams, cars, drivers, tyres, car parts, and tracks.
+
+    ```python
+    team_data = load_json_data('Data/teams_data.json')
+    car_data = load_json_data('Data/cars_data.json')
+    driver_data = load_json_data('Data/drivers_data.json')
+    tyre_data = load_json_data('Data/tyres_data.json')
+    carparts_data = load_json_data('Data/carpart_data.json')
+    track_data = load_json_data('Data/tracks_data.json')
+    ```
+
+3. **Create the grid**
+
+    The script creates the racing grid using the `create_grid` function. The grid is a dictionary where the keys are team names and the values are `Team` objects.
+
+    ```python
+    teams_dict = create_grid(team_data, car_data, driver_data, tyre_data)
+    ```
+
+4. **Select the track**
+
+    If `DEV_MODE` is `False`, the script asks the user to input the name of the track. It then finds the track data and creates a `Track` object. If the track data is not found, the script prints an error message and exits.
+
+    If `DEV_MODE` is `True`, the script selects the 'Monza' track by default.
+
+    ```python
+    if not DEV_MODE:
+        track_name = input("Enter the name of the track: ")
+        track_data_item = next((track for track in track_data if track['name'] == track_name), None)
+        if track_data_item is not None:
+            track = Track(track_data_item['name'], track_data_item['length'], track_data_item['turns'],
+                          track_data_item['downforce_factor'], track_data_item['handling_factor'],
+                          track_data_item['power_factor'], track_data_item['unpredictability_factor'],
+                          track_data_item['base_time'], segments=track_data_item['segments'])
+        else:
+            print(f"Track data for {track_name} not found.")
+    else:
+        track_data_item = next((track for track in track_data if track['name'] == 'Monza'), None)
+        track = Track(track_data_item['name'], track_data_item['length'], track_data_item['turns'],
+                      track_data_item['downforce_factor'], track_data_item['handling_factor'],
+                      track_data_item['power_factor'], track_data_item['unpredictability_factor'],
+                      track_data_item['base_time'], segments=track_data_item['segments'])
+    ```
+
+5. **Run the simulation**
+
+    Finally, the script runs the race simulation using the `simulate_race` function. The function takes the track, the teams, the number of laps, and the tyre data as arguments. The results of the race are stored in the `race` variable.
+
+    ```python
+    race = simulate_race(track=track, teams=teams_dict, num_laps=50, tyre_data=tyre_data, mode='debug')
+    ```
+
+## Future Work
+
+This script could be extended in various ways, such as adding more user input options (e.g., selecting the number of laps), improving the user interface, or adding the ability to simulate a series of races (i.e., a championship).
+
+
+
+
+
+
+
+
+
+
+
+
