@@ -55,7 +55,7 @@ This module contains the classes that represent the various components of the si
 - `Track`: Represents the track on which the race takes place. Each track has a name, length, number of turns, and various factors that affect the race.
 - `Tyre`: Represents the tyres of a car. Each tyre has a compound, grip, tyre life, and wear rate.
 
-### `Scripts/data.py`
+### `Scripts/helper.py`
 
 This module contains various utility functions for loading JSON data, formatting lap times, and finding the index of a driver or team in a list.
 
@@ -74,19 +74,20 @@ To run the simulation, you need to create a `Track` object and a dictionary of `
 ## Future Work
 
 This project will be extended in various ways, such as adding more factors to the simulation (e.g., weather conditions), creating the user interface, or adding the ability to simulate a series of races (i.e., a championship).
-We are currently working on a tailor made `RPG` named **BOX!BOX!** Noxire will share the detail's of this project very soon but just you know we are very patiend Motorsports fans.  
+We are currently working on a tailor made **RPG** named **BOX!BOX!** Noxire will share the detail's of this project very soon but just you know we are very passionet Motorsports fans.  
 
 ## Known Issues and Improvements
 
 - **Limited Simulation Features**: The simulation aspect is very basic and very far away from realism.
-- **Spagetthi code**: Re-factoring of the code base will come when i can sort the horror of simulation.
+- **Spagetthi code**: Re-factoring of the code base will come when I can sort the horror of simulation.
 - **User Experience**: Its intented to make a workable ui for this tool.
-- **Implement funcinalty to be actual ttrpg**: I know it is just a sim tool atm but i can assure you i will add the ttrpg elemts (even rules!) i think it will come around maybe 0.3.0 updt not sure tho
+- **Implement functionality to be actual ttrpg**: I know it is just a sim tool atm but i can assure you i will add the ttrpg elements (even rules!) i think it will come around maybe 0.3.0 updt not sure tho
 
 ## On The Way
-- Overtake and Defence system 
-- Weather events
+- Better UI/UX
+- Better Tyre Wear
 - Better Aero
+- Car setups
 
 ## Contributing
 
