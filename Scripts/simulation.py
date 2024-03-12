@@ -1,7 +1,7 @@
 import random
 import json
 from .models import Tyre
-from .data import format_lap_time
+from .helper import format_lap_time
 
 
 def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):

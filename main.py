@@ -1,4 +1,4 @@
-from Scripts.data import load_json_data
+from Scripts.helper import load_json_data
 from Scripts.grid import create_grid
 from Scripts.models import Track
 from Scripts.simulation import simulate_race
