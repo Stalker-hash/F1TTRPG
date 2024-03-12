@@ -1,6 +1,6 @@
 from Scripts.data import load_json_data
 from Scripts.models import Car, Driver, Team, Track, Tyre, ERS
-from Scripts.simulation import calculate_lap_time, simulate_race, calculate_segments
+from Scripts.simulation import calculate_lap_time, simulate_race
 from Scripts.grid import create_grid, find_team_index
 
 DEV_MODE = False

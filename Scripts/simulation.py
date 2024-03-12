@@ -22,7 +22,7 @@ def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
                 print(f"{driver_name} making a pit stop, losing {pit_time} seconds.")
                 additional_time_due_to_wear += pit_time
 
-            individual_lap_time = calculate_segments(track, car, ers=ers, driver=driver) + additional_time_due_to_wear
+            individual_lap_time = calculate_lap_time(track, car, ers=ers, driver=driver) + additional_time_due_to_wear
 
             if random.uniform(0, 80) > car.reliability:
                 time_penalty, failed_part = check_reliability(car)
@@ -32,6 +32,7 @@ def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
             lap_times[(team_name, driver_name, lap)] = individual_lap_time
 
             car.fuel_load -= 1
+            car.tyre.tyre_life -= 1
 
         sorted_results = sorted(results.items(), key=lambda x: x[1])
         print(f"After lap {lap + 1}:")
@@ -44,39 +45,17 @@ def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
                 print(
                     f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
 
+    if team_name in results:
+        next_car_time = next((time for team, time in results.items() if time > results[team_name]), None)
+        if next_car_time is not None:
+            car.distance_to_next_car = next_car_time - results[team_name]
+    car.drs_active = car.distance_to_next_car is not None and car.distance_to_next_car < 1
     return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
 
 
-def calculate_lap_time(car, track, mode='normal'):
-    base_time = track.base_time
-    power_factor = track.power_factor * 0.1  # Lower values mean more influence
-    handling_factor = track.handling_factor * 0.2  # Lower values mean more influence
-    downforce_factor = track.downforce_factor * 0.3  # Lower values mean more influence
-    unpredictability_factor = 1 + random.uniform(-track.unpredictability_factor,
-                                                 track.unpredictability_factor)  # Random factor for unpredictability
-    # Adjust for tyre wear and fuel load
-    tyre_wear_factor = car.tyre_wear * 0.05
-    fuel_load_factor = car.fuel_load * 0.02
-
-    # Update for dynamic tire wear effects
-    additional_time_due_to_wear = car.tyre.calculate_effect_on_lap_time()
-
-    if mode == 'normal':
-        lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
-        lap_time *= unpredictability_factor  # Apply unpredictability
-    elif mode == 'qualifying':
-        lap_time = base_time - (car.power * power_factor) - (car.handling * handling_factor) - (
-                car.downforce * downforce_factor) + (tyre_wear_factor + fuel_load_factor) + additional_time_due_to_wear
-
-    return round(lap_time, 3)
-
-
-with open('Data/carpart_data.json') as f:
-    carpart_data = json.load(f)
-
-
 def check_reliability(car):
+    with open('Data/carpart_data.json') as f:
+        carpart_data = json.load(f)
     # Generate a random number between 0 and 100
     random_number = random.uniform(0, 100)
 
@@ -125,13 +104,13 @@ def pit_stop(car, tyre_data):
     return total_pit_time
 
 
-def calculate_segments(track, car, ers, driver):
+def calculate_lap_time(track, car, ers, driver):
     lap_time = 0
     attribute_factors = {
-        "straights_km": ((car.power * 0.8) / car.downforce * 0.4) + driver.breaking * 0.3,
-        "high_speed_km": (car.power + (car.handling * 0.4) + (driver.cornering * 0.5)),
-        "medium_speed_km": ((car.handling * 0.8) + car.downforce + (driver.cornering * 0.7) + driver.smoothness * 0.1),
-        "low_speed_km": (car.downforce + (car.handling * 0.7) + (driver.cornering * 0.8) + driver.adaptability * 0.1),
+        "straights_km": car.power * 0.5 * (car.drs_factor if car.drs_active else 1) - car.downforce * 0.3 + driver.breaking * 0.2,
+        "high_speed_km": car.power * 0.3 + car.handling * 0.4 + car.downforce * 0.3 + driver.cornering * 0.2,
+        "medium_speed_km": car.handling * 0.5 + car.downforce * 0.4 + driver.cornering * 0.4 + driver.adaptability * 0.2,
+        "low_speed_km": car.downforce * 0.6 + car.handling * 0.4 + driver.cornering * 0.5,
     }
 
     for segment, attribute in attribute_factors.items():
@@ -145,15 +124,16 @@ def calculate_segments(track, car, ers, driver):
                 ers_mode = "RECHARGE"
 
             # Use the ERS
+            ers_multiplier = 1 + (ers.battery_level / 100) * 0.1  # Adjust this value as needed
             ers.use_ers(ers_mode, segment)
 
             # Calculate the segment time
             base_time = track.segments[segment] * 1.5  # Increase the base time for each segment
-            segment_time = base_time * (attribute / 100)
+            segment_time = base_time * (attribute / 100) * ers_multiplier
             segment_time *= 1 + track.unpredictability_factor / 50
 
             # Add a random factor to represent the natural variability in a driver's performance
-            random_factor = random.uniform(-0.05, 0.05)  # Adjust this range as needed
+            random_factor = random.gauss(0, 0.03)  # Adjust this range as needed
             segment_time *= 1 + random_factor
 
             lap_time += segment_time

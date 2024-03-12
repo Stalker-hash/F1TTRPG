@@ -23,7 +23,7 @@ class Team:
 
 
 class Car:
-    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, reliability, driver, tyre):
+    def __init__(self, car_name, handling, power, downforce, tyre_wear, fuel_load, reliability, driver, tyre, drs):
         self.car_name = car_name
         self.handling = handling
         self.power = power
@@ -33,6 +33,9 @@ class Car:
         self.reliability = reliability
         self.driver = driver
         self.tyre = tyre
+        self.drs_factor = drs
+        self.distance_to_next_car = None
+        self.drs_active = False
         with open('Data/carpart_data.json') as f:
             self.car_parts = json.load(f)
 
@@ -130,4 +133,3 @@ class ERS:
 
         # Ensure battery level stays within capacity limits
         self.battery_level = min(max(self.battery_level, 0), self.battery_capacity)
-
