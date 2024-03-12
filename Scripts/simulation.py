@@ -1,7 +1,7 @@
 import random
 import json
 from .models import Tyre
-from .data import format_lap_time, find_driver_index
+from .data import format_lap_time
 
 
 def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
@@ -32,7 +32,7 @@ def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
             lap_times[(team_name, driver_name, lap)] = individual_lap_time
 
             car.fuel_load -= 1
-            car.tyre.tyre_life -= 1
+            car.tyre.tyre_life -= 2
 
         sorted_results = sorted(results.items(), key=lambda x: x[1])
         print(f"After lap {lap + 1}:")
@@ -43,7 +43,7 @@ def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
                     f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)])}, Total Time: {format_lap_time(total_time)} (+{format_lap_time(interval)}), Grip: {round(teams[team_name].car.tyre.grip, 2)}, Tyre Life: {teams[team_name].car.tyre.tyre_life}, Compound: {teams[team_name].car.tyre.compound}, Fuel load: {teams[team_name].car.fuel_load}")
             else:
                 print(
-                    f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)], 2)}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
+                    f"{i + 1}. Team: {team_name}, Driver: {driver_name}, Lap Time: {format_lap_time(lap_times[(team_name, driver_name, lap)])}, Total Time: {round(total_time, 2)} (+{round(interval, 2)})")
 
     if team_name in results:
         next_car_time = next((time for team, time in results.items() if time > results[team_name]), None)
@@ -125,7 +125,7 @@ def calculate_lap_time(track, car, ers, driver):
 
             # Use the ERS
             ers_multiplier = 1 + (ers.battery_level / 100) * 0.1  # Adjust this value as needed
-            ers.use_ers(ers_mode, segment)
+            car.use_ers(ers_mode, segment)
 
             # Calculate the segment time
             base_time = track.segments[segment] * 1.5  # Increase the base time for each segment

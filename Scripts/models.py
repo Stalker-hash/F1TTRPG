@@ -36,8 +36,43 @@ class Car:
         self.drs_factor = drs
         self.distance_to_next_car = None
         self.drs_active = False
+        self.battery_capacity = 5  # 5 Mega Joules
+        self.battery_level = self.battery_capacity  # 5 Mega Joules
         with open('Data/carpart_data.json') as f:
             self.car_parts = json.load(f)
+
+    def use_ers(self, mode, segment):
+        if self.battery_level > 3:  # If battery level is high
+            if mode == "PUSH":
+                self.battery_level -= 1.5  # Use more energy
+            elif mode == "NATURAL":
+                if segment == "straights_km":
+                    self.battery_level -= 0.3  # Use more energy
+                elif segment == "high_speed_km":
+                    self.battery_level -= 0.2  # Use more energy
+                elif segment == "medium_speed_km":
+                    self.battery_level += 0.1  # Recharge a bit
+                elif segment == "low_speed_km":
+                    self.battery_level += 0.2  # Recharge more
+            elif mode == "RECHARGE":
+                self.battery_level += 0.5  # Only fills the battery
+        else:  # If battery level is low
+            if mode == "PUSH":
+                self.battery_level -= 0.5  # Use less energy
+            elif mode == "NATURAL":
+                if segment == "straights_km":
+                    self.battery_level -= 0.1  # Use less energy
+                elif segment == "high_speed_km":
+                    self.battery_level -= 0.05  # Use less energy
+                elif segment == "medium_speed_km":
+                    self.battery_level += 0.2  # Recharge more
+                elif segment == "low_speed_km":
+                    self.battery_level += 0.3  # Recharge more
+            elif mode == "RECHARGE":
+                self.battery_level += 0.7  # Recharge more
+
+        # Ensure battery level stays within capacity limits
+        self.battery_level = min(max(self.battery_level, 0), self.battery_capacity)
 
     def __str__(self):
         return self.car_name

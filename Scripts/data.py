@@ -20,3 +20,10 @@ def find_driver_index(driver_name, drivers):
         if driver.name == driver_name:
             return i
     return -1
+
+
+def find_team_index(team_name, teams):
+    for i, team in enumerate(teams):
+        if team.name == team_name:
+            return i
+    return -1
