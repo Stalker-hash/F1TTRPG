@@ -4,7 +4,7 @@ from .models import Tyre
 from .data import format_lap_time
 
 
-def simulate_race(track, teams, num_laps, tyre_data, ers, mode='debug'):
+def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
     results = {}
     lap_times = {}
 

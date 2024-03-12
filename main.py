@@ -1,5 +1,5 @@
 from Scripts.data import load_json_data
-from Scripts.models import Car, Driver, Team, Track, Tyre, ERS
+from Scripts.models import Car, Driver, Team, Track, Tyre
 from Scripts.simulation import calculate_lap_time, simulate_race
 from Scripts.grid import create_grid, find_team_index
 
@@ -12,7 +12,6 @@ driver_data = load_json_data('Data/drivers_data.json')
 tyre_data = load_json_data('Data/tyres_data.json')
 carparts_data = load_json_data('Data/carpart_data.json')
 track_data = load_json_data('Data/tracks_data.json')
-ers = ERS()
 # Create the grid
 teams_dict = create_grid(team_data, car_data, driver_data, tyre_data)
 if DEV_MODE:
@@ -39,4 +38,4 @@ else:
                   track_data_item['base_time'], segments=track_data_item['segments'])
 
 # Run the simulation
-race = simulate_race(track=track, teams=teams_dict, num_laps=50, tyre_data=tyre_data, ers=ers, mode='debug')
+race = simulate_race(track=track, teams=teams_dict, num_laps=50, tyre_data=tyre_data, mode='debug')
