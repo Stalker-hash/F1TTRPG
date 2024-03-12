@@ -1,7 +1,7 @@
 
 ---
 
-# Racing Simulation for TTRPGs (Early Development Build)
+# Racing Simulation for TTRPGs (Early Development Build) Our RPG BOX!BOX!
 
 **Note: This project is in its early development stage and is primarily intended for use in custom tabletop role-playing games (TTRPGs). It is not a professional simulation tool and may not accurately reflect real-world racing dynamics.**
 
@@ -43,14 +43,38 @@ Follow the on-screen prompts to navigate through the simulation.
 
 ## Customization
 
-### Data Files
+## Modules
 
-- `drivers_data.json`: Contains information about drivers including their skills and teams.
-- `teams_data.json`: Defines the teams participating in the races along with their cars.
-- `cars_data.json`: Specifies the attributes of the cars used by the teams.
-- `tracks_data.json`: Describes the tracks available for racing, including segment details.
+### `Scripts/models.py`
 
-Feel free to customize these files according to your preferences.
+This module contains the classes that represent the various components of the simulation:
+
+- `Team`: Represents a team participating in the race. Each team has a name, a driver, a state, and a list of cars.
+- `Car`: Represents a car in the race. Each car has various attributes such as power, handling, downforce, tyre wear, fuel load, and reliability. It also includes a DRS factor and an ERS.
+- `Driver`: Represents a driver in the race. Each driver has various skills such as overtaking, breaking, consistency, adaptability, smoothness, defence, and cornering.
+- `Track`: Represents the track on which the race takes place. Each track has a name, length, number of turns, and various factors that affect the race.
+- `Tyre`: Represents the tyres of a car. Each tyre has a compound, grip, tyre life, and wear rate.
+
+### `Scripts/data.py`
+
+This module contains various utility functions for loading JSON data, formatting lap times, and finding the index of a driver or team in a list.
+
+### `Scripts/simulation.py`
+
+This module contains the main logic of the race simulation. It includes functions for simulating a race, checking the reliability of a car, performing a pit stop, and calculating the lap time of a car.
+
+### `Scripts/grid.py`
+
+This module is a helper function that creates `Team`'s, `Car`'s,`Driver`'s and match them.
+
+## Usage
+
+To run the simulation, you need to create a `Track` object and a dictionary of `Team` objects, and then call the `simulate_race` function with these objects and the number of laps. The `simulate_race` function will print the results of each lap and return the final results of the race.
+
+## Future Work
+
+This project will be extended in various ways, such as adding more factors to the simulation (e.g., weather conditions), creating the user interface, or adding the ability to simulate a series of races (i.e., a championship).
+We are currently working on a tailor made `RPG` named **BOX!BOX!** Noxire will share the detail's of this project very soon but just you know we are very patiend Motorsports fans.  
 
 ## Known Issues and Improvements
 
@@ -59,9 +83,10 @@ Feel free to customize these files according to your preferences.
 - **User Experience**: Its intented to make a workable ui for this tool.
 - **Implement funcinalty to be actual ttrpg**: I know it is just a sim tool atm but i can assure you i will add the ttrpg elemts (even rules!) i think it will come around maybe 0.3.0 updt not sure tho
 
-## OTW (version 0.1.3)
-- Worknig pitstop system this will work as manual mod and a ai led one (prox 0.1.6)
-- Making current tyre system better by 
+## On The Way
+- Overtake and Defence system 
+- Weather events
+- Better Aero
 
 ## Contributing
 
