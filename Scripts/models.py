@@ -34,7 +34,7 @@ class Car:
         self.driver = driver
         self.tyre = tyre
         self.drs_factor = drs
-        self.distance_to_next_car = None
+        self.distance_to_next_car = 00.1
         self.drs_active = False
         self.battery_capacity = 5  # 5 Mega Joules
         self.battery_level = self.battery_capacity  # 5 Mega Joules
@@ -94,6 +94,10 @@ class Driver:
 
     def __str__(self):
         return self.name
+
+    def defend_position(self):
+        defence_probability = self.defence / 100
+        return random.random() < defence_probability
 
 
 class Track:

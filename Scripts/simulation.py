@@ -6,7 +6,10 @@ from .data import format_lap_time
 
 def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
     results = {}
+    positions = {}
     lap_times = {}
+
+    positions = {(team_name, str(team.driver)): i + 1 for i, (team_name, team) in enumerate(teams.items())}
 
     for lap in range(num_laps):
         for team_name, team in teams.items():
@@ -34,9 +37,31 @@ def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
             car.fuel_load -= 1
             car.tyre.tyre_life -= 2
 
+        # Calculate the distance to the next car
         sorted_results = sorted(results.items(), key=lambda x: x[1])
+        for i in range(len(sorted_results) - 1):
+            team_name, driver_name = sorted_results[i][0]
+            next_team_name, next_driver_name = sorted_results[i + 1][0]
+            teams[team_name].car.distance_to_next_car = results[(next_team_name, next_driver_name)] - results[
+                (team_name, driver_name)]
+
+        # Battle for position
+        for team_name, team in teams.items():
+            for other_team_name, other_team in teams.items():
+                if team_name != other_team_name:  # A car cannot overtake itself
+                    time_difference = abs(results[(team_name, str(team.driver))] - results[(other_team_name, str(other_team.driver))])
+                    if time_difference <= 1 or results[(team_name, str(team.driver))] < results[(other_team_name, str(other_team.driver))]:  # A car can only overtake if it's within a 1-second window or if it's total time is less than the total time of the car ahead
+                        battle_for_position(team, other_team, results, positions)
+
+        # Sort the results dictionary after the overtaking logic
+        results = dict(sorted(results.items(), key=lambda x: x[1]))
+
+        # Update the positions dictionary based on the sorted results
+        for i, ((team_name, driver_name), _) in enumerate(sorted(results.items(), key=lambda x: x[1])):
+            positions[(team_name, driver_name)] = i + 1
+
         print(f"After lap {lap + 1}:")
-        for i, ((team_name, driver_name), total_time) in enumerate(sorted_results):
+        for i, ((team_name, driver_name), total_time) in enumerate(sorted(results.items(), key=lambda x: x[1])):
             interval = total_time - sorted_results[0][1] if i != 0 else 0
             if mode == 'debug':
                 print(
@@ -50,6 +75,7 @@ def simulate_race(track, teams, num_laps, tyre_data, mode='debug'):
         if next_car_time is not None:
             car.distance_to_next_car = next_car_time - results[team_name]
     car.drs_active = car.distance_to_next_car is not None and car.distance_to_next_car < 1
+
     return sorted(results.items(), key=lambda x: x[1])  # Return the cumulative results
 
 
@@ -107,7 +133,8 @@ def pit_stop(car, tyre_data):
 def calculate_lap_time(track, car, driver):
     lap_time = 0
     attribute_factors = {
-        "straights_km": car.power * 0.5 * (car.drs_factor if car.drs_active else 1) - car.downforce * 0.3 + driver.breaking * 0.2,
+        "straights_km": car.power * 0.5 * (
+            car.drs_factor if car.drs_active else 1) - car.downforce * 0.3 + driver.breaking * 0.2,
         "high_speed_km": car.power * 0.3 + car.handling * 0.4 + car.downforce * 0.3 + driver.cornering * 0.2,
         "medium_speed_km": car.handling * 0.5 + car.downforce * 0.4 + driver.cornering * 0.4 + driver.adaptability * 0.2,
         "low_speed_km": car.downforce * 0.6 + car.handling * 0.4 + driver.cornering * 0.5,
@@ -139,3 +166,22 @@ def calculate_lap_time(track, car, driver):
             lap_time += segment_time
             lap_time *= 1 + (driver.consistency * 0.001)
     return lap_time
+
+
+def battle_for_position(team1, team2, results, positions):
+    # Prevent the first car from overtaking the last car
+    if positions[(team1.name, str(team1.driver))] == 1 and positions[(team2.name, str(team2.driver))] == len(positions):
+        return
+
+    if team1.car.distance_to_next_car < 1:  # If the cars are close enough to attempt an overtake
+        overtaking_probability = (team1.car.power + team1.car.handling + team1.driver.overtaking) / 300  # Normalize to a value between 0 and 1
+        if random.random() < overtaking_probability:  # If the overtaking car is successful
+            if not team2.driver.defend_position():  # If the defending car is not successful
+                # Swap the positions of the cars
+                results[(team1.name, str(team1.driver))], results[(team2.name, str(team2.driver))] = results[(team2.name, str(team2.driver))], results[(team1.name, str(team1.driver))]
+                positions[(team1.name, str(team1.driver))], positions[(team2.name, str(team2.driver))] = positions[(team2.name, str(team2.driver))], positions[(team1.name, str(team1.driver))]
+                print(f"{team1.driver.name} has overtaken {team2.driver.name}!")
+            # Add a time penalty for both teams
+            time_penalty = random.uniform(0.1, 0.2)  # Random time penalty between 0.1 and 0.3 seconds
+            results[(team1.name, str(team1.driver))] += time_penalty
+            results[(team2.name, str(team2.driver))] += time_penalty

@@ -9,7 +9,7 @@
       "downforce": 70,
       "fuel_load": 50,
       "tyre_wear": 20,
-      "drs_effect": 1.1
+      "drs_effect": 1.3
     },
     {
       "name": "Red Bull RB18",
@@ -20,7 +20,7 @@
       "downforce": 68,
       "fuel_load": 55,
       "tyre_wear": 25,
-      "drs_effect": 1.3
+      "drs_effect": 1.5
     },
     {
       "name": "Ferrari SF21",
@@ -31,7 +31,7 @@
       "downforce": 65,
       "fuel_load": 60,
       "tyre_wear": 30,
-      "drs_effect": 1.2
+      "drs_effect": 1.4
     }
   ]
 }
