@@ -42,37 +42,53 @@ class Car:
             self.car_parts = json.load(f)
 
     def use_ers(self, mode, segment):
+        speed_multiplier = 1.0  # Initialize the speed multiplier
+
         if self.battery_level > 3:  # If battery level is high
             if mode == "PUSH":
                 self.battery_level -= 1.5  # Use more energy
+                speed_multiplier = 1.1  # Increase speed
             elif mode == "NATURAL":
                 if segment == "straights_km":
                     self.battery_level -= 0.3  # Use more energy
+                    speed_multiplier = 1.05  # Slightly increase speed
                 elif segment == "high_speed_km":
                     self.battery_level -= 0.2  # Use more energy
+                    speed_multiplier = 1.05  # Slightly increase speed
                 elif segment == "medium_speed_km":
                     self.battery_level += 0.1  # Recharge a bit
+                    speed_multiplier = 0.95  # Slightly decrease speed
                 elif segment == "low_speed_km":
                     self.battery_level += 0.2  # Recharge more
+                    speed_multiplier = 0.9  # Decrease speed
             elif mode == "RECHARGE":
                 self.battery_level += 0.5  # Only fills the battery
+                speed_multiplier = 0.85  # Decrease speed
         else:  # If battery level is low
             if mode == "PUSH":
                 self.battery_level -= 0.5  # Use less energy
+                speed_multiplier = 1.05  # Slightly increase speed
             elif mode == "NATURAL":
                 if segment == "straights_km":
                     self.battery_level -= 0.1  # Use less energy
+                    speed_multiplier = 1.02  # Slightly increase speed
                 elif segment == "high_speed_km":
                     self.battery_level -= 0.05  # Use less energy
+                    speed_multiplier = 1.02  # Slightly increase speed
                 elif segment == "medium_speed_km":
                     self.battery_level += 0.2  # Recharge more
+                    speed_multiplier = 0.95  # Slightly decrease speed
                 elif segment == "low_speed_km":
                     self.battery_level += 0.3  # Recharge more
+                    speed_multiplier = 0.9  # Decrease speed
             elif mode == "RECHARGE":
                 self.battery_level += 0.7  # Recharge more
+                speed_multiplier = 0.85  # Decrease speed
 
         # Ensure battery level stays within capacity limits
         self.battery_level = min(max(self.battery_level, 0), self.battery_capacity)
+
+        return speed_multiplier  # Return the speed multiplier
 
     def __str__(self):
         return self.car_name
@@ -91,13 +107,10 @@ class Driver:
         self.smoothness = smoothness
         self.defence = defence
         self.cornering = cornering
+        self.defence_probability = round(self.defence / 100, 3)
 
     def __str__(self):
         return self.name
-
-    def defend_position(self):
-        defence_probability = self.defence / 100
-        return random.random() < defence_probability
 
 
 class Track:
