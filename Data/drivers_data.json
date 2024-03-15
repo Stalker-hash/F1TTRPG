@@ -23,10 +23,21 @@
         "cornering": 85
       },
       {
+        "name": "Sergio Perez",
+        "number": 11,
+        "overtaking": 80,
+        "breaking": 85,
+        "consistency": 85,
+        "adaptability": 85,
+        "smoothness": 85,
+        "defence": 90,
+        "cornering": 85
+      },
+      {
         "name": "Charles Leclerc",
         "number": 16,
         "overtaking": 85,
-        "breaking": 88,
+        "breaking": 90,
         "consistency": 85,
         "adaptability": 88,
         "smoothness": 90,
@@ -34,15 +45,37 @@
         "cornering": 88
       },
       {
+        "name": "Carlos Sainz",
+        "number": 55,
+        "overtaking": 80,
+        "breaking": 85,
+        "consistency": 85,
+        "adaptability": 85,
+        "smoothness": 85,
+        "defence": 85,
+        "cornering": 85
+      },
+      {
+        "name": "Gorge Russell",
+        "number": 63,
+        "overtaking": 80,
+        "breaking": 85,
+        "consistency": 85,
+        "adaptability": 85,
+        "smoothness": 85,
+        "defence": 80,
+        "cornering": 85
+      },
+      {
         "name": "Fatih Hekimoglu",
         "number": 23,
         "overtaking": 70,
         "breaking": 75,
-        "consistency": 60,
+        "consistency": 70,
         "adaptability": 75,
         "smoothness": 70,
         "defence": 65,
-        "cornering": 65
+        "cornering": 60
       }
     ]
   }

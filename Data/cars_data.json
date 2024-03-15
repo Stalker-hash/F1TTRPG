@@ -3,10 +3,10 @@
     {
       "name": "Mercedes W12",
       "team": "Mercedes",
-      "power": 85,
-      "handling": 80,
+      "power": 75,
+      "handling": 75,
       "reliability": 80,
-      "downforce": 70,
+      "downforce": 65,
       "fuel_load": 50,
       "tyre_wear": 20,
       "drs_effect": 1.3
@@ -38,7 +38,7 @@
       "team": "Scuderia Saz",
       "power": 80,
       "handling": 70,
-      "reliability": 85,
+      "reliability": 75,
       "downforce": 60,
       "fuel_load": 65,
       "tyre_wear": 30,

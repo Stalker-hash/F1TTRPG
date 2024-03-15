@@ -138,11 +138,11 @@ def pit_stop(car, tyre_data):
 def calculate_lap_time(track, car, driver):
     lap_time = 0
     attribute_factors = {
-        "straights_km": car.power * 0.5 * (
-            car.drs_factor if car.drs_active else 1) - car.downforce * 0.3 + driver.breaking * 0.2,
+        "straights_km": car.power * 0.4 * (
+            car.drs_factor if car.drs_active else 1) - car.downforce * 0.2 + driver.breaking * 0.2 ,
         "high_speed_km": car.power * 0.3 + car.handling * 0.4 + car.downforce * 0.3 + driver.cornering * 0.2,
         "medium_speed_km": car.handling * 0.5 + car.downforce * 0.4 + driver.cornering * 0.4 + driver.adaptability * 0.2,
-        "low_speed_km": car.downforce * 0.6 + car.handling * 0.4 + driver.cornering * 0.5,
+        "low_speed_km": car.downforce * 0.5 + car.handling * 0.3 + driver.cornering * 0.4,
     }
 
     for segment, attribute in attribute_factors.items():
@@ -161,7 +161,7 @@ def calculate_lap_time(track, car, driver):
 
             # Calculate the segment time
             base_time = track.segments[segment] * 3  # Increase the base time for each segment
-            normalized_attribute = attribute / 200  # Normalize the attribute value to a range between 0 and 1
+            normalized_attribute = attribute / 220  # Normalize the attribute value to a range between 0 and 1
             segment_time = base_time * (1 - normalized_attribute) * ers_multiplier
             segment_time *= 1 + track.unpredictability_factor / 50
 
@@ -170,7 +170,7 @@ def calculate_lap_time(track, car, driver):
             segment_time *= 1 + random_factor
 
             lap_time += segment_time
-            lap_time *= 1 + (driver.consistency * 0.001)
+            lap_time *= 1 - (driver.consistency * 0.0001)
     return round(lap_time, 6)
 
 
