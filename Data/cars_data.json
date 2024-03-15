@@ -32,6 +32,17 @@
       "fuel_load": 60,
       "tyre_wear": 30,
       "drs_effect": 1.4
+    },
+    {
+      "name": "Scuderia Saz SS48",
+      "team": "Scuderia Saz",
+      "power": 80,
+      "handling": 70,
+      "reliability": 85,
+      "downforce": 60,
+      "fuel_load": 65,
+      "tyre_wear": 30,
+      "drs_effect": 1.2
     }
   ]
 }

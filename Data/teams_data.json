@@ -17,6 +17,12 @@
         "car": "Red Bull RB18",
         "driver": "Max Verstappen",
         "state":0
+      },
+      {
+        "name": "Scuderia Saz",
+        "car": "Scuderia Saz SS48",
+        "driver": "Fatih Hekimoglu",
+        "state":0
       }
     ]
   }

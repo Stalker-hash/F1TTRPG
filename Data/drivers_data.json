@@ -3,7 +3,7 @@
       {
         "name": "Lewis Hamilton",
         "number": 44,
-        "overtaking": 90,
+        "overtaking": 85,
         "breaking": 85,
         "consistency": 95,
         "adaptability": 90,
@@ -14,7 +14,7 @@
       {
         "name": "Max Verstappen",
         "number": 33,
-        "overtaking": 88,
+        "overtaking": 90,
         "breaking": 90,
         "consistency": 88,
         "adaptability": 85,
@@ -32,6 +32,17 @@
         "smoothness": 90,
         "defence": 82,
         "cornering": 88
+      },
+      {
+        "name": "Fatih Hekimoglu",
+        "number": 23,
+        "overtaking": 70,
+        "breaking": 75,
+        "consistency": 60,
+        "adaptability": 75,
+        "smoothness": 70,
+        "defence": 65,
+        "cornering": 65
       }
     ]
   }
